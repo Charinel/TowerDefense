@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://blwrsg5omt1pw"]
-
-[node name="Node2D" type="Node2D"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(21.4664, 14.5942)
-scale = Vector2(100, 100)

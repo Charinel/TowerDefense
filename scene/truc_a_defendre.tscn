@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://q70y8p6xnuj5"]
+
+[ext_resource type="Texture2D" uid="uid://chs8w1orkkfvf" path="res://Ressources/TrucADefendre.png" id="1_hxlir"]
+
+[node name="TrucADefendre" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_hxlir")

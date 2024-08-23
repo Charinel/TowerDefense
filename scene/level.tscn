@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6pwd1s2gh0ka"]
+
+[ext_resource type="Script" path="res://Scripts/level.gd" id="1_fncym"]
+[ext_resource type="Texture2D" uid="uid://dn643umh10wa0" path="res://Ressources/Background/Background.png" id="1_t4erc"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_fncym")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(975.25, 553.5)
+scale = Vector2(4.23229, 4.20221)
+texture = ExtResource("1_t4erc")
+
+[node name="NormalTiles" type="Node2D" parent="."]
+
+[node name="EnemyTiles" type="Node2D" parent="."]
+
+[node name="TrucADefendre" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="SpawnDelay" type="Timer" parent="."]
+wait_time = 3.0
+
+[connection signal="timeout" from="SpawnDelay" to="." method="_on_spawn_delay_timeout"]
