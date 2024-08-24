@@ -5,6 +5,11 @@ var ironTiles_scene: PackedScene = load("res://scene/iron_tiles.tscn")
 var enemyTiles_scene: PackedScene = load("res://scene/EnemyPath.tscn")
 var trucADefendre_scene: PackedScene = load("res://scene/truc_a_defendre.tscn")
 var enemies_scene: PackedScene = load("res://scene/enemies.tscn")
+const ennemyTilesScript = preload("res://scripts/enemy_path.gd")
+var graph = {}
+var firstEnemyNode
+var lastEnemyNode
+var path
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -21,10 +26,27 @@ func _ready() -> void:
 	$TrucADefendre.add_child(trucADefendre)
 	trucADefendre.position = Vector2(536,920)
 	
+	
+	var previousNode
+	var enemyTilesNode = null
+	var enemyTiles
+	
 	for y in range(8,get_viewport().get_visible_rect().size[1],16):
-		var enemyTiles = enemyTiles_scene.instantiate()
+		if enemyTilesNode != null :
+			previousNode = enemyTilesNode
+		
+		enemyTiles = enemyTiles_scene.instantiate()
+		enemyTilesNode = ennemyTilesScript.EnemyPath.new(str(y))
+		
+		if firstEnemyNode == null :
+			firstEnemyNode = enemyTilesNode
+			
 		$EnemyTiles.add_child(enemyTiles)
+		enemyTilesNode.neighbors[previousNode] = 1
+		graph[enemyTilesNode] = enemyTilesNode
 		enemyTiles.position = Vector2(536,y)
+		
+	lastEnemyNode = enemyTilesNode
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,4 +59,14 @@ func _on_spawn_delay_timeout() -> void:
 	var enemies = enemies_scene.instantiate()
 	$Enemies.add_child(enemies)
 	print("spawned at:")
-	enemies.position = Vector2($EnemyTiles.get_child(0).position)
+	enemies.position = $EnemyTiles.get_child(0).position
+	
+
+func findPathForEnemies() -> void:
+	path = firstEnemyNode.dijkstra(firstEnemyNode, lastEnemyNode, graph)
+
+
+func moveEnemyToNextTile() -> void:
+	for x in path :
+		$Enemies.get_child_count()
+	pass 
