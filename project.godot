@@ -20,6 +20,22 @@ config/icon="res://icon.svg"
 window/size/viewport_width=1088
 window/size/viewport_height=928
 
+[global_group]
+
+enemies=""
+
+[input]
+
+removeHealth={
+"deadzone": 0.5,
+"events": []
+}
+
+[layer_names]
+
+2d_physics/layer_1="Ennemies"
+2d_physics/layer_2="Core"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

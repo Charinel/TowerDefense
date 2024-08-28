@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cg3ba4i18kdg4"]
-
-[ext_resource type="Texture2D" uid="uid://btil8rrri2xxs" path="res://Ressources/IronTiles.png" id="1_w4341"]
-
-[node name="IronTiles" type="Node2D"]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_w4341")
