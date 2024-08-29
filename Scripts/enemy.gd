@@ -30,3 +30,13 @@ func _physics_process(delta: float) -> void:
 	var nextPosition = navigation_agent_2d.get_next_path_position()
 	velocity = currentPosition.direction_to(nextPosition) * movementSpeed
 	collision = move_and_collide(velocity * delta)
+	
+	if Input.is_action_pressed("bulletHitEnemy"):
+		hp -= 1
+		print(hp)
+		var event = InputEventAction.new()
+		event.action = "bulletHitEnemy"
+		event.pressed = false
+		Input.parse_input_event(event)
+	if hp <= 0 :
+		queue_free()

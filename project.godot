@@ -30,11 +30,16 @@ removeHealth={
 "deadzone": 0.5,
 "events": []
 }
+bulletHitEnemy={
+"deadzone": 0.5,
+"events": []
+}
 
 [layer_names]
 
 2d_physics/layer_1="Ennemies"
 2d_physics/layer_2="Core"
+2d_physics/layer_3="Bullet"
 
 [rendering]
 

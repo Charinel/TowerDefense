@@ -32,6 +32,7 @@ func _process(delta: float) -> void:
 
 func _on_spawn_delay_timeout() -> void:
 	var enemies = enemies_scene.instantiate()
+	enemies.name = "enemies"
 	$Enemies.add_child(enemies)
 	enemies.position = enemy_tiles.map_to_local(Vector2(windowXAxis/32,0))
 	enemies.target = $TrucADefendre
