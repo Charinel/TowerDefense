@@ -40,13 +40,11 @@ func findTarget() -> Node2D:
 	
 	if target == null:
 		if get_tree().has_group("enemies") :
-			#if ray_cast_2d.get_collider() != null:
 				while not ray_cast_2d.is_colliding() and counter < maxEnemies:
 					newTarget = get_tree().get_nodes_in_group("enemies")[counter]
 					var angleToTarget = global_position.direction_to(newTarget.global_position).angle() - (PI/2)
 					ray_cast_2d.global_rotation = angleToTarget
 					ray_cast_2d.force_raycast_update()
 					counter += 1
-			#else:
-				#newTarget = get_tree().get_nodes_in_group("enemies")[counter]
+					
 	return newTarget
