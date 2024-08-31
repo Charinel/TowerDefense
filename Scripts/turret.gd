@@ -47,4 +47,6 @@ func findTarget() -> Node2D:
 					ray_cast_2d.force_raycast_update()
 					counter += 1
 					
-	return newTarget
+	if is_instance_valid(newTarget):
+		return newTarget
+	return null

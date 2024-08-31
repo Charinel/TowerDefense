@@ -717,6 +717,9 @@ tile_set = SubResource("TileSet_55se7")
 [node name="EnemyTiles" type="TileMapLayer" parent="Map"]
 tile_set = SubResource("TileSet_64tlr")
 
+[node name="BuildMode" type="TileMapLayer" parent="Map"]
+tile_set = SubResource("TileSet_55se7")
+
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(975.25, 553.5)
 scale = Vector2(4.23229, 4.20221)

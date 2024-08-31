@@ -25,10 +25,8 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies"):
 		pierce -= 1
-		var event = InputEventAction.new()
-		event.action = "bulletHitEnemy"
-		event.pressed = true
-		Input.parse_input_event(event)
+		if body.has_method("hit"):
+			body.hit()
 		
 		if pierce == 0:
 			destroy()
