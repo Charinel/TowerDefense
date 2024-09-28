@@ -9,6 +9,9 @@ var target: Node2D = null
 var newTarget = null
 var counter = 0
 
+const maxBullet = 20
+var remaningBullet = 10 #on start avec un certain nombre pour pas être bs vu que sa coute dequoi la build
+
 func _ready() -> void:
 	target = call_deferred("findTarget")
 	
@@ -19,7 +22,7 @@ func _physics_process(delta: float) -> void:
 		if ray_cast_2d.get_collider() != null :
 			if ray_cast_2d.is_colliding() and ray_cast_2d.get_collider().get_class().contains("CharacterBody2D"):
 				#sprite_2d.rotaion = angleToTarget
-				if reload_time.is_stopped():
+				if reload_time.is_stopped() and remaningBullet > 0:
 					fire()
 		target = null
 	else :
@@ -32,6 +35,7 @@ func fire():
 	createdBullet.global_position = global_position
 	createdBullet.rotation = ray_cast_2d.global_rotation + PI/2
 	
+	remaningBullet -= 1
 	reload_time.start()
 
 func findTarget() -> Node2D:

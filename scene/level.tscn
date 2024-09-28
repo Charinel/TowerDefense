@@ -1,9 +1,22 @@
-[gd_scene load_steps=18 format=3 uid="uid://b6pwd1s2gh0ka"]
+[gd_scene load_steps=22 format=3 uid="uid://b6pwd1s2gh0ka"]
 
 [ext_resource type="Script" path="res://Scripts/level.gd" id="1_fncym"]
 [ext_resource type="Script" path="res://Scripts/truc_a_defendre.gd" id="3_oskny"]
 [ext_resource type="Texture2D" uid="uid://b41wgbmj5hudt" path="res://Ressources/TilesetGrass/overworld_tileset_grass.png" id="3_p0fwv"]
-[ext_resource type="PackedScene" uid="uid://gac77483xkxq" path="res://scene/turret.tscn" id="4_r3o70"]
+[ext_resource type="Texture2D" uid="uid://tit6seeljb53" path="res://Ressources/healthbarUnder.png" id="4_o13pb"]
+[ext_resource type="Texture2D" uid="uid://dk568bpmn5kns" path="res://Ressources/healthbarProgress.png" id="5_cyxtk"]
+
+[sub_resource type="Gradient" id="Gradient_w74fn"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.701299)
+colors = PackedColorArray(0, 0.577795, 5.77569e-07, 1, 0.288518, 0.288518, 0.288518, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_44mpl"]
+frequency = 0.1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_cr1bo"]
+color_ramp = SubResource("Gradient_w74fn")
+noise = SubResource("FastNoiseLite_44mpl")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8ec1w"]
 texture = ExtResource("3_p0fwv")
@@ -708,6 +721,7 @@ sources/0 = SubResource("TileSetAtlasSource_tjrsf")
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_fncym")
+noise_texture = SubResource("NoiseTexture2D_cr1bo")
 
 [node name="Map" type="Node2D" parent="."]
 
@@ -730,11 +744,6 @@ script = ExtResource("3_oskny")
 [node name="Core" type="TileMapLayer" parent="TrucADefendre"]
 tile_set = SubResource("TileSet_nr74f")
 
-[node name="Hp" type="TextureProgressBar" parent="TrucADefendre"]
-offset_right = 40.0
-offset_bottom = 40.0
-rounded = true
-
 [node name="Enemies" type="Node2D" parent="."]
 z_index = 100
 
@@ -743,8 +752,104 @@ z_index = 100
 [node name="MoveEnemies" type="Timer" parent="."]
 wait_time = 0.05
 
-[node name="Turret" parent="." instance=ExtResource("4_r3o70")]
-position = Vector2(500, 500)
+[node name="Turrets" type="Node2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -58.0
+offset_top = 19.0
+offset_bottom = 31.0
+grow_horizontal = 0
+
+[node name="Hp" type="TextureProgressBar" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.10388
+anchor_top = 0.0830002
+anchor_right = 0.999346
+anchor_bottom = 0.992728
+offset_left = 0.0250015
+offset_top = 0.0039978
+offset_right = 0.0379372
+offset_bottom = -0.00300598
+value = 100.0
+rounded = true
+texture_under = ExtResource("4_o13pb")
+texture_progress = ExtResource("5_cyxtk")
+metadata/_edit_use_anchors_ = true
+
+[node name="UI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1088.0
+offset_bottom = -928.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="TotalFlesh" type="Label" parent="CanvasLayer/UI"]
+z_index = 100
+layout_mode = 0
+offset_left = 1044.0
+offset_right = 1088.0
+offset_bottom = 23.0
+text = "test"
+horizontal_alignment = 2
+
+[node name="Build mode" type="Control" parent="CanvasLayer/UI"]
+anchors_preset = 0
+offset_top = 776.0
+offset_right = 1922.0
+offset_bottom = 1079.0
+
+[node name="Turret" type="Button" parent="CanvasLayer/UI/Build mode"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.019
+anchor_top = 0.71
+anchor_right = 0.072
+anchor_bottom = 0.911
+offset_left = 0.481998
+offset_top = -0.129974
+offset_right = 0.824997
+offset_bottom = 0.0650024
+toggle_mode = true
+text = "Turret"
+
+[node name="ConveyorBelt" type="Button" parent="CanvasLayer/UI/Build mode"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.084
+anchor_top = 0.71
+anchor_right = 0.192
+anchor_bottom = 0.911
+offset_left = -0.00300598
+offset_top = -0.129974
+offset_right = 0.545013
+offset_bottom = 0.0650024
+toggle_mode = true
+text = "Conveyor Belt
+"
+
+[node name="Mine" type="Button" parent="CanvasLayer/UI/Build mode"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.198
+anchor_top = 0.713
+anchor_right = 0.284
+anchor_bottom = 0.901
+offset_left = -0.55603
+offset_top = -0.0390167
+offset_right = -0.848022
+offset_bottom = -0.00302124
+text = "Mine"
 
 [connection signal="timeout" from="SpawnDelay" to="." method="_on_spawn_delay_timeout"]
 [connection signal="timeout" from="MoveEnemies" to="." method="moveEnemyToNextTile"]

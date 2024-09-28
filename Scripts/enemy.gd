@@ -34,6 +34,9 @@ func _physics_process(delta: float) -> void:
 func hit() -> void:
 	hp -= 1
 		
-	print(hp)
 	if hp <= 0 :
+		var event = InputEventAction.new()
+		event.action = "addFlesh"
+		event.pressed = true
+		Input.parse_input_event(event)
 		queue_free()
