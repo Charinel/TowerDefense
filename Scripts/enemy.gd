@@ -5,6 +5,7 @@ var movementSpeed = 100
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
 var collision
 @onready var hp = $HealthBar.max_value
+var powerCost = 10
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,8 +32,8 @@ func _physics_process(delta: float) -> void:
 	velocity = currentPosition.direction_to(nextPosition) * movementSpeed
 	collision = move_and_collide(velocity * delta)
 
-func hit() -> void:
-	hp -= 1
+func hit(damage) -> void:
+	hp -= damage
 		
 	if hp <= 0 :
 		var event = InputEventAction.new()

@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://s3ropndi5se4"]
+
+[ext_resource type="Script" path="res://Scripts/item.gd" id="1_tcap3"]
+[ext_resource type="Texture2D" uid="uid://dqvmbuf35t2wk" path="res://Ressources/IronOre.png" id="2_utqla"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2dj27"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_de0lb"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_epqxt"]
+size = Vector2(8, 8)
+
+[node name="Item" type="RigidBody2D"]
+top_level = true
+z_index = 1
+collision_layer = 8
+collision_mask = 8
+gravity_scale = 0.0
+script = ExtResource("1_tcap3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2dj27")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_utqla")
+
+[node name="FrontSensor" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FrontSensor"]
+shape = SubResource("RectangleShape2D_de0lb")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_epqxt")

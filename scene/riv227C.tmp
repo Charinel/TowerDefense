@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://cdr0p5t4otiw4"]
+
+[ext_resource type="Script" path="res://Scripts/river.gd" id="1_1yv67"]
+[ext_resource type="Texture2D" uid="uid://37cjuw1tjukh" path="res://Ressources/TileSetBase.png" id="1_pohbl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrt04"]
+atlas = ExtResource("1_pohbl")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y2j2x"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ncnu4"]
+size = Vector2(16, 16)
+
+[node name="River" type="Node2D"]
+script = ExtResource("1_1yv67")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_jrt04")
+region_enabled = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 24
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_y2j2x")
+
+[node name="beltDetector" type="Area2D" parent="."]
+position = Vector2(0, 9)
+collision_layer = 16
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="beltDetector"]
+position = Vector2(0, 7)
+shape = SubResource("RectangleShape2D_ncnu4")

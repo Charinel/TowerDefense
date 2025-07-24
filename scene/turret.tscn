@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://gac77483xkxq"]
+[gd_scene load_steps=4 format=3 uid="uid://gac77483xkxq"]
 
 [ext_resource type="Script" path="res://Scripts/turret.gd" id="1_j3rjt"]
 [ext_resource type="Texture2D" uid="uid://b1xhf64e8tv7b" path="res://Ressources/turret.png" id="2_6ltcd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vcjxl"]
+size = Vector2(16, 16)
 
 [node name="Turret" type="Node2D"]
 script = ExtResource("1_j3rjt")
@@ -16,4 +19,12 @@ target_position = Vector2(0, 250)
 wait_time = 0.25
 one_shot = true
 
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_vcjxl")
+
 [connection signal="timeout" from="RayCast2D/reloadTime" to="." method="_on_reload_time_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_entered"]

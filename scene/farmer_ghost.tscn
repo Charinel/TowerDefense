@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://br8xytdx1oavw"]
+
+[ext_resource type="Texture2D" uid="uid://cg2af0c6yalgw" path="res://Ressources/mine.png" id="1_ia0ua"]
+
+[node name="FarmerGhost" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.5)
+texture = ExtResource("1_ia0ua")

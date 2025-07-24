@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://drusr3m76ec2k"]
+
+[ext_resource type="Texture2D" uid="uid://b1xhf64e8tv7b" path="res://Ressources/turret.png" id="1_prkma"]
+
+[node name="TurretGhost" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.5)
+texture = ExtResource("1_prkma")

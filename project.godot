@@ -17,9 +17,8 @@ config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=1920
+window/size/viewport_width=1880
 window/size/viewport_height=1080
-window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="ignore"
 
@@ -48,6 +47,9 @@ addFlesh={
 2d_physics/layer_1="Ennemies"
 2d_physics/layer_2="Core"
 2d_physics/layer_3="Bullet"
+2d_physics/layer_4="Ressources"
+2d_physics/layer_5="Belt"
+2d_physics/layer_6="Turret"
 
 [rendering]
 

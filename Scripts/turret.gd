@@ -1,4 +1,4 @@
-extends Node2D
+extends "res://Scripts/placable.gd"
 
 var bullet: PackedScene = load("res://scene/bullet.tscn")
 
@@ -8,10 +8,14 @@ var target: Node2D = null
 @onready var sprite_2d: Sprite2D = $Sprite2D
 var newTarget = null
 var counter = 0
+var itemType = ""
 
 const maxBullet = 20
 var remaningBullet = 10 #on start avec un certain nombre pour pas être bs vu que sa coute dequoi la build
 
+func _init():
+	cost = 10
+	
 func _ready() -> void:
 	target = call_deferred("findTarget")
 	
@@ -54,3 +58,20 @@ func findTarget() -> Node2D:
 	if is_instance_valid(newTarget):
 		return newTarget
 	return null
+
+
+func _on_area_entered(area: Area2D) -> void:
+	var temp = area.get_parent()
+	if temp.type != itemType:
+		remaningBullet = temp.bullet
+		itemType = temp.type
+	else :
+		var tempBullet = remaningBullet + temp.bullet
+		while tempBullet > maxBullet:
+			await get_tree().process_frame
+			tempBullet = remaningBullet
+			tempBullet += temp.bullet
+			if tempBullet == maxBullet:
+				tempBullet = remaningBullet
+		remaningBullet = maxBullet
+	temp.free()

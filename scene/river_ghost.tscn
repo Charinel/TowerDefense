@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://dqhc358pxrht2"]
+
+[ext_resource type="Texture2D" uid="uid://37cjuw1tjukh" path="res://Ressources/TileSetBase.png" id="1_tix2w"]
+[ext_resource type="Script" path="res://Scripts/river_ghost.gd" id="1_w1c5w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pfns5"]
+atlas = ExtResource("1_tix2w")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sh55q"]
+size = Vector2(16, 16)
+
+[node name="RiverGhost" type="Node2D"]
+script = ExtResource("1_w1c5w")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.5)
+texture = SubResource("AtlasTexture_pfns5")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_sh55q")

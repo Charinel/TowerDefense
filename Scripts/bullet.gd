@@ -2,8 +2,8 @@ extends Area2D
 
 const RIGHT = Vector2.RIGHT
 @export var speed = 200
-var pierce = 1
-@export var damage = 1
+var pierce = 2
+@export var damage = 10
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -26,7 +26,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies"):
 		pierce -= 1
 		if body.has_method("hit"):
-			body.hit()
+			body.hit(damage)
 		
 		if pierce == 0:
 			destroy()

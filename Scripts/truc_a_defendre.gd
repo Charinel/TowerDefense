@@ -12,7 +12,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("removeHealth"):
 		hp.value -= 1
-		print(hp.value)
 		var event = InputEventAction.new()
 		event.action = "removeHealth"
 		event.pressed = false
