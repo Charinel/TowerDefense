@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://s3ropndi5se4"]
 
-[ext_resource type="Script" path="res://Scripts/item.gd" id="1_tcap3"]
+[ext_resource type="Script" uid="uid://cr26issa3e36y" path="res://Scripts/item.gd" id="1_tcap3"]
 [ext_resource type="Texture2D" uid="uid://dqvmbuf35t2wk" path="res://Ressources/IronOre.png" id="2_utqla"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2dj27"]

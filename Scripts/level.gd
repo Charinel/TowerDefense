@@ -10,7 +10,6 @@ var turretGhost_scene: PackedScene = load("res://scene/turret_ghost.tscn")
 var round: PackedScene = load("res://scene/round_system.tscn")
 @onready var tileMapNormalTiles: TileMapLayer = $Map/NormalTiles
 @onready var enemy_tiles: TileMapLayer = $Map/EnemyTiles
-@onready var core: TileMapLayer = $TrucADefendre/Core
 @onready var totalFlesh: Label = $CanvasLayer/UI/TotalFlesh
 @onready var UIbuild_mode: Control = $"CanvasLayer/UI/Build mode"
 @onready var turretButton: Button = $"CanvasLayer/UI/Build mode/Turret"
@@ -22,8 +21,8 @@ var round: PackedScene = load("res://scene/round_system.tscn")
 
 var amountOfPixelInATile = 16
 
-var windowXAxis
-var windowYAxis
+var windowXAxis = 1920
+var windowYAxis = 1000
 
 var money = 10000000000
 
@@ -39,11 +38,9 @@ var currentRound = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	windowXAxis = get_viewport().get_visible_rect().size[0]
-	windowYAxis = get_viewport().get_visible_rect().size[1]
-	var difference
-	difference = windowYAxis - 1010
-	windowYAxis = windowYAxis - difference
+	#pour get la size de l'écran je hard code pour l'instant
+	#windowXAxis = get_viewport().get_visible_rect().size[0]
+	#windowYAxis = get_viewport().get_visible_rect().size[1]
 	generateMap()
 
 func _input(event: InputEvent) -> void:
@@ -146,11 +143,10 @@ func generateMap()-> void: #generate the map with a noise map
 				tileMapNormalTiles.set_cell(Vector2(x,y),0,normalTileAtlas)
 			#tileMapNormalTiles.set_cell(Vector2(x,y),0,normalTileAtlas)
 	
-	core.set_cell(Vector2(windowXAxis/(amountOfPixelInATile * 2),windowYAxis/amountOfPixelInATile),0,Vector2(2,18))
-	$TrucADefendre.position = Vector2(windowXAxis/2 - 4,windowYAxis)
-	
 	for y in range(0,windowYAxis/amountOfPixelInATile,1):		
 		enemy_tiles.set_cell(Vector2(windowXAxis/(amountOfPixelInATile * 2),y),0,enemyTileAtlas)
+		
+	$TrucADefendre.position = setCenterOfCell(Vector2(windowXAxis/2,windowYAxis - amountOfPixelInATile))
 
 func checkMoney(costOfObj) -> bool:
 	if money >= costOfObj:
@@ -186,7 +182,7 @@ func changeGhost(ghost,scene) -> void:
 	
 	if ghost != null:
 		ghost.queue_free()
-		ghost = null	
+		ghost = null
 
 func _on_start_round_pressed() -> void:
 	round.start(currentRound + 1)

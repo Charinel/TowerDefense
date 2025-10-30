@@ -8,10 +8,12 @@ var target: Node2D = null
 @onready var sprite_2d: Sprite2D = $Sprite2D
 var newTarget = null
 var counter = 0
-var itemType = ""
+var itemType = "normal"
 
 const maxBullet = 20
 var remaningBullet = 10 #on start avec un certain nombre pour pas être bs vu que sa coute dequoi la build
+var ammoOverload = false
+var lastAmmoEntered
 
 func _init():
 	cost = 10
@@ -32,6 +34,12 @@ func _physics_process(delta: float) -> void:
 	else :
 		target = findTarget()
 	
+	if ammoOverload :
+		if remaningBullet + lastAmmoEntered.bullet < maxBullet :
+			remaningBullet = remaningBullet + lastAmmoEntered.bullet
+			lastAmmoEntered.free()
+			ammoOverload = false
+	
 
 func fire():
 	var createdBullet = bullet.instantiate()
@@ -48,6 +56,7 @@ func findTarget() -> Node2D:
 	
 	if target == null:
 		if get_tree().has_group("enemies") :
+				newTarget = get_tree().get_nodes_in_group("enemies")[counter]
 				while not ray_cast_2d.is_colliding() and counter < maxEnemies:
 					newTarget = get_tree().get_nodes_in_group("enemies")[counter]
 					var angleToTarget = global_position.direction_to(newTarget.global_position).angle() - (PI/2)
@@ -61,17 +70,19 @@ func findTarget() -> Node2D:
 
 
 func _on_area_entered(area: Area2D) -> void:
-	var temp = area.get_parent()
-	if temp.type != itemType:
-		remaningBullet = temp.bullet
-		itemType = temp.type
+	var newAmmoEntered = area.get_parent()
+	#on regarde le type de balle qu'il s'agit
+	#Si le type est nouveau on efface l'inventaire et prends les valeurs de la nouvelle balle
+	if newAmmoEntered.type != itemType:
+		remaningBullet = newAmmoEntered.bullet
+		itemType = newAmmoEntered.type
+		newAmmoEntered.free()
 	else :
-		var tempBullet = remaningBullet + temp.bullet
-		while tempBullet > maxBullet:
-			await get_tree().process_frame
-			tempBullet = remaningBullet
-			tempBullet += temp.bullet
-			if tempBullet == maxBullet:
-				tempBullet = remaningBullet
-		remaningBullet = maxBullet
-	temp.free()
+		var tempBullet = remaningBullet + newAmmoEntered.bullet
+		#si le nombre dépasse pas la capacité max on ajoute la balle
+		if tempBullet < maxBullet :
+			remaningBullet = tempBullet
+			newAmmoEntered.free()
+		else : 
+			ammoOverload = true
+			lastAmmoEntered = newAmmoEntered
