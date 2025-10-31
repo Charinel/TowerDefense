@@ -19,7 +19,7 @@ func setSeek() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	if navigation_agent_2d.is_navigation_finished():
+	if navigation_agent_2d.is_navigation_finished() and self.position == target.global_position:
 		var event = InputEventAction.new()
 		event.action = "removeHealth"
 		event.pressed = true

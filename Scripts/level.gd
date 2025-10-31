@@ -147,6 +147,8 @@ func generateMap()-> void: #generate the map with a noise map
 		enemy_tiles.set_cell(Vector2(windowXAxis/(amountOfPixelInATile * 2),y),0,enemyTileAtlas)
 		
 	$TrucADefendre.position = setCenterOfCell(Vector2(windowXAxis/2,windowYAxis - amountOfPixelInATile))
+	print("truc a defendre")
+	print($TrucADefendre.position)
 
 func checkMoney(costOfObj) -> bool:
 	if money >= costOfObj:
@@ -186,3 +188,4 @@ func changeGhost(ghost,scene) -> void:
 
 func _on_start_round_pressed() -> void:
 	round.start(currentRound + 1)
+	

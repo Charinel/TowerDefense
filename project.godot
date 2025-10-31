@@ -46,6 +46,7 @@ addFlesh={
 [layer_names]
 
 2d_physics/layer_1="Ennemies"
+2d_navigation/layer_1="Path"
 2d_physics/layer_2="Core"
 2d_physics/layer_3="Bullet"
 2d_physics/layer_4="Ressources"
