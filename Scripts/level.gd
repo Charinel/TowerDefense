@@ -15,6 +15,7 @@ var round: PackedScene = load("res://scene/round_system.tscn")
 @onready var turretButton: Button = $"CanvasLayer/UI/Build mode/Turret"
 @onready var conveyorBeltButton: Button = $"CanvasLayer/UI/Build mode/ConveyorBelt"
 @onready var mineButton: Button = $"CanvasLayer/UI/Build mode/Mine"
+@onready var pathButton: Button = $"CanvasLayer/UI/Build mode/Path"
 @onready var building: TileMapLayer = $Map/Building
 @onready var roundSystem: Node2D = $RoundSystem
 
@@ -25,6 +26,8 @@ var windowXAxis = 1920
 var windowYAxis = 1000
 
 var money = 10000000000
+
+var pathCost = 5
 
 var currentGhost
 
@@ -55,6 +58,7 @@ func _input(event: InputEvent) -> void:
 				
 	if event is InputEventMouse:
 		if (event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT):
+			#turret option selected
 			if turretButton.button_pressed :
 				var turret = turret_scene.instantiate()
 				turret.position = setCenterOfCell(building.get_local_mouse_position())
@@ -62,6 +66,7 @@ func _input(event: InputEvent) -> void:
 					$Turrets.add_child(turret)
 				else :
 					turret.free()
+			#mine option selected
 			elif mineButton.button_pressed :
 				if tileMapNormalTiles.get_cell_atlas_coords(building.local_to_map(building.get_local_mouse_position())) == ironPatchAtlas:
 					var mine = farmer_scene.instantiate()
@@ -71,6 +76,7 @@ func _input(event: InputEvent) -> void:
 						$Mines.add_child(mine)
 					else :
 						mine.free()
+			#Conveyor option selected
 			elif conveyorBeltButton.button_pressed :
 				var conveyor = river_scene.instantiate()
 				conveyor.position = setCenterOfCell(building.get_local_mouse_position())
@@ -83,6 +89,14 @@ func _input(event: InputEvent) -> void:
 					currentGhost.setDefaultSprite()
 				else :
 					conveyor.free()
+			#path option selected
+			elif pathButton.button_pressed :
+				var posOfClick = setCenterOfCell(building.get_local_mouse_position())
+				if checkIfThereIsPlace(posOfClick) and checkMoney(pathCost):
+					#conveyor.rotation = currentGhost.rotation
+					#await get_tree().process_frame
+					print()
+					enemy_tiles.set_cell(Vector2(posOfClick.x/amountOfPixelInATile,posOfClick.y/amountOfPixelInATile),0,enemyTileAtlas)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -141,14 +155,11 @@ func generateMap()-> void: #generate the map with a noise map
 				tileMapNormalTiles.set_cell(Vector2(x,y),0,ironPatchAtlas)
 			if noiseVal < 0.4:
 				tileMapNormalTiles.set_cell(Vector2(x,y),0,normalTileAtlas)
-			#tileMapNormalTiles.set_cell(Vector2(x,y),0,normalTileAtlas)
 	
 	for y in range(0,windowYAxis/amountOfPixelInATile,1):		
 		enemy_tiles.set_cell(Vector2(windowXAxis/(amountOfPixelInATile * 2),y),0,enemyTileAtlas)
 		
 	$TrucADefendre.position = setCenterOfCell(Vector2(windowXAxis/2,windowYAxis - amountOfPixelInATile))
-	print("truc a defendre")
-	print($TrucADefendre.position)
 
 func checkMoney(costOfObj) -> bool:
 	if money >= costOfObj:
@@ -156,27 +167,33 @@ func checkMoney(costOfObj) -> bool:
 		return true
 	else:
 		return false
-
-func _on_turret_pressed() -> void:
-	turretButton.button_pressed = true
+func setButtonOff() -> void:
+	turretButton.button_pressed = false
 	conveyorBeltButton.button_pressed = false
 	mineButton.button_pressed = false
+	pathButton.button_pressed = false
+
+func _on_turret_pressed() -> void:
+	setButtonOff()
+	turretButton.button_pressed = true
 	changeGhost(currentGhost, turretGhost_scene)
 	$Turrets.add_child(currentGhost)
 
 func _on_conveyor_belt_pressed() -> void:
-	turretButton.button_pressed = false
+	setButtonOff()
 	conveyorBeltButton.button_pressed = true
-	mineButton.button_pressed = false
 	changeGhost(currentGhost, riverGhost_scene)
 	$ConveyorBelts.add_child(currentGhost)
 
 func _on_mine_pressed() -> void:
-	turretButton.button_pressed = false
-	conveyorBeltButton.button_pressed = false
+	setButtonOff()
 	mineButton.button_pressed = true
 	changeGhost(currentGhost, farmerGhost_scene)
 	$Mines.add_child(currentGhost)
+	
+func _on_path_pressed() -> void:
+	setButtonOff()
+	pathButton.button_pressed = true
 
 func changeGhost(ghost,scene) -> void:
 	currentGhost = scene.instantiate()

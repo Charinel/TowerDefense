@@ -861,6 +861,21 @@ button_group = ExtResource("6_o6wqb")
 text = "Mine"
 metadata/_edit_use_anchors_ = true
 
+[node name="Path" type="Button" parent="CanvasLayer/UI/Build mode"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.207917
+anchor_top = 0.00258271
+anchor_right = 0.266917
+anchor_bottom = 0.973684
+offset_left = -0.200012
+offset_top = 0.803714
+offset_right = 0.518982
+toggle_mode = true
+button_group = ExtResource("6_o6wqb")
+text = "Path"
+metadata/_edit_use_anchors_ = true
+
 [node name="Start Round" type="Button" parent="CanvasLayer/UI/Build mode"]
 layout_mode = 1
 anchors_preset = -1
@@ -882,4 +897,5 @@ metadata/_edit_use_anchors_ = true
 [connection signal="pressed" from="CanvasLayer/UI/Build mode/Turret" to="." method="_on_turret_pressed"]
 [connection signal="pressed" from="CanvasLayer/UI/Build mode/ConveyorBelt" to="." method="_on_conveyor_belt_pressed"]
 [connection signal="pressed" from="CanvasLayer/UI/Build mode/Mine" to="." method="_on_mine_pressed"]
+[connection signal="pressed" from="CanvasLayer/UI/Build mode/Path" to="." method="_on_path_pressed"]
 [connection signal="pressed" from="CanvasLayer/UI/Build mode/Start Round" to="." method="_on_start_round_pressed"]
