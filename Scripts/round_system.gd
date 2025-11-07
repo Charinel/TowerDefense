@@ -18,7 +18,7 @@ func getPowerLevel(roundNumber) -> int:
 func start() -> void:
 	powerLvl = getPowerLevel(roundNumber)
 	var timerDelay = randf_range(0.0, 1.0)
-	$Timer.wait_time = timerDelay
+	timer.wait_time = timerDelay
 	timer.start()
 	totalPowerLvl = powerLvl * (4 * timerDelay) # c'est pour changer la difficulté selon la vitesse de spawn
 

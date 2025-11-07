@@ -15,9 +15,10 @@ var turretGhost_scene: PackedScene = load("res://scene/turret_ghost.tscn")
 @onready var conveyorBeltButton: Button = $"CanvasLayer/UI/Build mode/ConveyorBelt"
 @onready var mineButton: Button = $"CanvasLayer/UI/Build mode/Mine"
 @onready var pathButton: Button = $"CanvasLayer/UI/Build mode/Path"
+@onready var start_roundButton: Button = $"CanvasLayer/UI/Build mode/Start Round"
+@onready var sellButton: Button = $"CanvasLayer/UI/Build mode/Sell"
 @onready var building: TileMapLayer = $Map/Building
 @onready var roundSystem: Node2D = $RoundSystem
-
 
 var amountOfPixelInATile = 16
 
@@ -90,11 +91,11 @@ func _input(event: InputEvent) -> void:
 			elif pathButton.button_pressed :
 				var posOfClick = setCenterOfCell(building.get_local_mouse_position())
 				if checkIfThereIsPlace(posOfClick) and checkMoney(pathCost):
-					#conveyor.rotation = currentGhost.rotation
-					#await get_tree().process_frame
-					print()
-					enemy_tiles.set_cell(Vector2(posOfClick.x/amountOfPixelInATile,posOfClick.y/amountOfPixelInATile),0,enemyTileAtlas)
-	
+					enemy_tiles.set_cell(Vector2(posOfClick.x/amountOfPixelInATile,posOfClick.y/amountOfPixelInATile),0,verifSurrounding(posOfClick))
+			
+			elif sellButton.button_pressed :
+				sellBuilding(setCenterOfCell(building.get_local_mouse_position()))
+				
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	totalFlesh.text = str(money)
@@ -108,7 +109,7 @@ func _process(delta: float) -> void:
 		Input.parse_input_event(event)
 		
 	if currentGhost != null:
-		var mouse_pos = get_global_mouse_position()	
+		var mouse_pos = get_global_mouse_position()
 		var snapped_pos = mouse_pos.snapped(setCenterOfCell(building.get_local_mouse_position()))
 		currentGhost.global_position = snapped_pos
 		
@@ -118,6 +119,9 @@ func _process(delta: float) -> void:
 		event.action = "spawnEnnemy"
 		event.pressed = false
 		Input.parse_input_event(event)
+		
+	if $Enemies.get_child_count() == 0 and $"CanvasLayer/UI/Build mode/Start Round/GracePeriod".is_stopped():
+		start_roundButton.disabled = false
 
 func spawn() -> void:
 	var enemies = enemies_scene.instantiate()
@@ -176,6 +180,7 @@ func setButtonOff() -> void:
 	conveyorBeltButton.button_pressed = false
 	mineButton.button_pressed = false
 	pathButton.button_pressed = false
+	sellButton.button_pressed = false
 
 func _on_turret_pressed() -> void:
 	setButtonOff()
@@ -198,6 +203,7 @@ func _on_mine_pressed() -> void:
 func _on_path_pressed() -> void:
 	setButtonOff()
 	pathButton.button_pressed = true
+	clearGhost()
 
 func changeGhost(ghost,scene) -> void:
 	currentGhost = scene.instantiate()
@@ -206,8 +212,111 @@ func changeGhost(ghost,scene) -> void:
 	if ghost != null:
 		ghost.queue_free()
 		ghost = null
-
-func _on_start_round_pressed() -> void:
-	print("round #")
-	print(roundSystem.nextRound())
+		
+func clearGhost() -> void:
+	if currentGhost != null:
+		currentGhost.free()
 	
+func _on_start_round_pressed() -> void:
+	roundSystem.nextRound()
+	start_roundButton.disabled = true
+	$"CanvasLayer/UI/Build mode/Start Round/GracePeriod".start()
+
+func verifSurrounding(posOfClick) -> Vector2:
+	var droite = false
+	var gauche = false
+	var haut = false
+	var bas = false
+	var pathToSend = Vector2(4,2) 
+	
+	#vérif a dorite
+	if enemy_tiles.get_cell_tile_data(Vector2((posOfClick.x + amountOfPixelInATile)/amountOfPixelInATile,(posOfClick.y)/amountOfPixelInATile)) != null:
+		droite = true
+		pathToSend = Vector2(5,1) 
+		
+	#Vérif a gauche
+	if enemy_tiles.get_cell_tile_data(Vector2((posOfClick.x - amountOfPixelInATile)/amountOfPixelInATile,(posOfClick.y)/amountOfPixelInATile)) != null:
+		gauche = true
+		if droite :
+			pathToSend = Vector2(6,0) 
+		else :
+			pathToSend = Vector2(7,1) 
+
+	#Vérif en bas
+	if enemy_tiles.get_cell_tile_data(Vector2((posOfClick.x)/amountOfPixelInATile,(posOfClick.y + amountOfPixelInATile)/amountOfPixelInATile)) != null:
+		bas = true
+		if gauche :
+			pathToSend = Vector2(7,1) 
+			
+		if droite :
+			pathToSend = Vector2(5,1)
+			if gauche :
+				pathToSend = Vector2(6,1) 
+
+	#Vérif en haut
+	if enemy_tiles.get_cell_tile_data(Vector2((posOfClick.x)/amountOfPixelInATile,(posOfClick.y - amountOfPixelInATile)/amountOfPixelInATile)) != null:
+		haut = true
+		if gauche :
+			pathToSend = Vector2(7,3) 
+			if bas :
+				pathToSend = Vector2(7,2)
+				
+		if droite :
+			pathToSend = Vector2(5,3) 
+			if gauche :
+				pathToSend = Vector2(6,3) 
+				if bas :
+					pathToSend = Vector2(6,2) 
+					return pathToSend
+			if bas :
+				pathToSend = Vector2(5,2) 
+				return pathToSend
+	
+	return pathToSend
+	
+
+func _on_sell_pressed() -> void:
+	setButtonOff()
+	sellButton.button_pressed = true
+	clearGhost()
+	
+
+func sellBuilding(pos) -> void:
+	if pos.y >= windowYAxis :
+		return 
+		
+	for x in $Turrets.get_child_count():
+		var turret = $ConveyorBelts.get_child(x)
+		if turret.position == pos :
+			refund(turret)
+			turret.free()
+			return
+			
+	for x in $ConveyorBelts.get_child_count():
+		var belt = $ConveyorBelts.get_child(x)
+		if belt.position == pos :
+			refund(belt)
+			belt.free()
+			return
+			
+	for x in $Mines.get_child_count():
+		var mine = $Mines.get_child(x)
+		if mine.position == pos :
+			refund(mine)
+			mine.free()
+			return
+			
+	if enemy_tiles.get_cell_atlas_coords(building.local_to_map(pos)) != Vector2i(-1, -1):
+		enemy_tiles.erase_cell(building.local_to_map(pos))
+
+func refund(obj) -> void:
+	var tempCost = obj.get_cost()
+	#L'idée c'est de faire perdre du cash pour éviter de spend n'importe comment
+	money += tempCost * .66 
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	var event = InputEventAction.new()
+	event.action = "removeHealth"
+	event.pressed = true
+	Input.parse_input_event(event)
+	body.queue_free()

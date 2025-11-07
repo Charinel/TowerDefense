@@ -899,10 +899,6 @@ offset_bottom = -0.209961
 text = "Start round"
 metadata/_edit_use_anchors_ = true
 
-[node name="GracePeriod" type="Timer" parent="CanvasLayer/UI/Build mode/Start Round"]
-wait_time = 2.0
-one_shot = true
-
 [node name="Sell" type="Button" parent="CanvasLayer/UI/Build mode"]
 layout_mode = 1
 anchors_preset = -1
@@ -920,6 +916,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="RoundSystem" parent="." instance=ExtResource("4_j44pa")]
 
+[connection signal="area_entered" from="TrucADefendre/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="TrucADefendre/Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="SpawnDelay" to="." method="_on_spawn_delay_timeout"]
 [connection signal="timeout" from="MoveEnemies" to="." method="moveEnemyToNextTile"]
