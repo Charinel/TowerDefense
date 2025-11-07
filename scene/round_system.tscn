@@ -1,11 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://m0gvuu2unb6t"]
 
-[ext_resource type="Script" path="res://Scripts/round_system.gd" id="1_jyaam"]
+[ext_resource type="Script" uid="uid://c7cxk5salc66e" path="res://Scripts/round_system.gd" id="1_jyaam"]
 
 [node name="RoundSystem" type="Node2D"]
 script = ExtResource("1_jyaam")
 
 [node name="Timer" type="Timer" parent="."]
-autostart = true
+one_shot = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

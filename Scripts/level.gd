@@ -7,7 +7,6 @@ var river_scene: PackedScene = load("res://scene/river.tscn")
 var riverGhost_scene: PackedScene = load("res://scene/river_ghost.tscn")
 var farmerGhost_scene: PackedScene = load("res://scene/farmer_ghost.tscn")
 var turretGhost_scene: PackedScene = load("res://scene/turret_ghost.tscn")
-var round: PackedScene = load("res://scene/round_system.tscn")
 @onready var tileMapNormalTiles: TileMapLayer = $Map/NormalTiles
 @onready var enemy_tiles: TileMapLayer = $Map/EnemyTiles
 @onready var totalFlesh: Label = $CanvasLayer/UI/TotalFlesh
@@ -36,8 +35,6 @@ var noise: Noise
 var normalTileAtlas = Vector2(0,0)
 var enemyTileAtlas = Vector2(4,2) 
 var ironPatchAtlas = Vector2i(10,2)
-
-var currentRound = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -114,8 +111,15 @@ func _process(delta: float) -> void:
 		var mouse_pos = get_global_mouse_position()	
 		var snapped_pos = mouse_pos.snapped(setCenterOfCell(building.get_local_mouse_position()))
 		currentGhost.global_position = snapped_pos
+		
+	if Input.is_action_pressed("spawnEnnemy"):
+		spawn()
+		var event = InputEventAction.new()
+		event.action = "spawnEnnemy"
+		event.pressed = false
+		Input.parse_input_event(event)
 
-func _on_spawn_delay_timeout() -> void:
+func spawn() -> void:
 	var enemies = enemies_scene.instantiate()
 	enemies.name = "enemies"
 	$Enemies.add_child(enemies)
@@ -204,5 +208,6 @@ func changeGhost(ghost,scene) -> void:
 		ghost = null
 
 func _on_start_round_pressed() -> void:
-	round.start(currentRound + 1)
+	print("round #")
+	print(roundSystem.nextRound())
 	
