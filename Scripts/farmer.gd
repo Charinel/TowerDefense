@@ -24,3 +24,9 @@ func _on_timer_timeout():
 	if item.has_method("set_direction"):
 		item.set_direction(spawn_direction)
 	get_tree().current_scene.add_child(item)
+
+func startProduction() -> void:
+	$Timer.start()
+
+func stopProduction() -> void:
+	$Timer.stop()

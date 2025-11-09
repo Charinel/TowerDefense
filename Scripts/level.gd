@@ -28,6 +28,8 @@ var windowYAxis = 1000
 var money = 10000000000
 
 var pathCost = 5
+var pathInflation = 1.2
+var refundInflation = .66
 
 var currentGhost
 
@@ -92,6 +94,12 @@ func _input(event: InputEvent) -> void:
 				var posOfClick = setCenterOfCell(building.get_local_mouse_position())
 				if checkIfThereIsPlace(posOfClick) and checkMoney(pathCost):
 					enemy_tiles.set_cell(Vector2(posOfClick.x/amountOfPixelInATile,posOfClick.y/amountOfPixelInATile),0,verifSurrounding(posOfClick))
+					var tempPathCost = roundi(pathCost * pathInflation)
+					if tempPathCost < 250 :
+						pathCost = tempPathCost
+					else :
+						pathCost = 250
+					updateNeighbourCell(posOfClick)
 			
 			elif sellButton.button_pressed :
 				sellBuilding(setCenterOfCell(building.get_local_mouse_position()))
@@ -122,6 +130,12 @@ func _process(delta: float) -> void:
 		
 	if $Enemies.get_child_count() == 0 and $"CanvasLayer/UI/Build mode/Start Round/GracePeriod".is_stopped():
 		start_roundButton.disabled = false
+		pathButton.disabled = false
+		sellButton.disabled = false
+		for x in $Mines.get_child_count():
+			if $Mines.get_child(x).name != "FarmerGhost":
+				$Mines.get_child(x).startProduction()
+	
 
 func spawn() -> void:
 	var enemies = enemies_scene.instantiate()
@@ -221,6 +235,11 @@ func _on_start_round_pressed() -> void:
 	roundSystem.nextRound()
 	start_roundButton.disabled = true
 	$"CanvasLayer/UI/Build mode/Start Round/GracePeriod".start()
+	pathButton.disabled = true
+	sellButton.disabled = true
+	for x in $Mines.get_child_count():
+			if $Mines.get_child(x).name != "FarmerGhost":
+				$Mines.get_child(x).startProduction()
 
 func verifSurrounding(posOfClick) -> Vector2:
 	var droite = false
@@ -273,7 +292,6 @@ func verifSurrounding(posOfClick) -> Vector2:
 				return pathToSend
 	
 	return pathToSend
-	
 
 func _on_sell_pressed() -> void:
 	setButtonOff()
@@ -308,11 +326,31 @@ func sellBuilding(pos) -> void:
 			
 	if enemy_tiles.get_cell_atlas_coords(building.local_to_map(pos)) != Vector2i(-1, -1):
 		enemy_tiles.erase_cell(building.local_to_map(pos))
+		refundPath()
+
+func updateNeighbourCell(pos) -> void:
+	#vérif dorite
+	if enemy_tiles.get_cell_tile_data(Vector2((pos.x + amountOfPixelInATile)/amountOfPixelInATile,(pos.y)/amountOfPixelInATile)) != null:
+		enemy_tiles.set_cell(Vector2((pos.x + amountOfPixelInATile)/amountOfPixelInATile, pos.y/amountOfPixelInATile),0,verifSurrounding(Vector2(pos.x + amountOfPixelInATile,pos.y)))
+	#Vérif a gauche
+	if enemy_tiles.get_cell_tile_data(Vector2((pos.x - amountOfPixelInATile)/amountOfPixelInATile,(pos.y)/amountOfPixelInATile)) != null:
+		enemy_tiles.set_cell(Vector2((pos.x - amountOfPixelInATile)/amountOfPixelInATile, pos.y/amountOfPixelInATile),0,verifSurrounding(Vector2(pos.x - amountOfPixelInATile,pos.y)))
+	#Vérif en bas
+	if enemy_tiles.get_cell_tile_data(Vector2((pos.x)/amountOfPixelInATile,(pos.y + amountOfPixelInATile)/amountOfPixelInATile)) != null:
+		enemy_tiles.set_cell(Vector2(pos.x/amountOfPixelInATile, (pos.y + amountOfPixelInATile)/amountOfPixelInATile),0,verifSurrounding(Vector2(pos.x,pos.y + amountOfPixelInATile)))
+	#Vérif en haut
+	if enemy_tiles.get_cell_tile_data(Vector2((pos.x)/amountOfPixelInATile,(pos.y - amountOfPixelInATile)/amountOfPixelInATile)) != null:
+		enemy_tiles.set_cell(Vector2(pos.x/amountOfPixelInATile, (pos.y - amountOfPixelInATile)/amountOfPixelInATile),0,verifSurrounding(Vector2(pos.x,pos.y - amountOfPixelInATile)))
 
 func refund(obj) -> void:
 	var tempCost = obj.get_cost()
 	#L'idée c'est de faire perdre du cash pour éviter de spend n'importe comment
-	money += tempCost * .66 
+	money += roundi(tempCost * refundInflation)
+
+func refundPath() -> void:
+	money += roundi(pathCost * refundInflation)
+	pathCost = roundi(pathCost / pathInflation)
+	
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	var event = InputEventAction.new()

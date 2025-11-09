@@ -15,6 +15,7 @@ script = ExtResource("1_olw88")
 texture = ExtResource("1_bkj1v")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+simplify_epsilon = 16.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_dnd0a")
