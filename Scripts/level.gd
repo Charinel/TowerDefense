@@ -19,8 +19,11 @@ var turretGhost_scene: PackedScene = load("res://scene/turret_ghost.tscn")
 @onready var sellButton: Button = $"CanvasLayer/UI/Build mode/Sell"
 @onready var building: TileMapLayer = $Map/Building
 @onready var roundSystem: Node2D = $RoundSystem
+@onready var gracePeriodTimer: Timer = $"CanvasLayer/UI/Build mode/Start Round/GracePeriod"
+
 
 var amountOfPixelInATile = 16
+var fade_duration = 1.0
 
 var windowXAxis = 1920
 var windowYAxis = 1000
@@ -234,7 +237,7 @@ func clearGhost() -> void:
 func _on_start_round_pressed() -> void:
 	roundSystem.nextRound()
 	start_roundButton.disabled = true
-	$"CanvasLayer/UI/Build mode/Start Round/GracePeriod".start()
+	gracePeriodTimer.start()
 	pathButton.disabled = true
 	sellButton.disabled = true
 	for x in $Mines.get_child_count():
