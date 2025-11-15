@@ -25,7 +25,7 @@ func _on_item_exited(body):
 
 func setConveyorDirection(ghost) -> void:
 	$Sprite2D.region_enabled = true
-	$Sprite2D.region_rect = ghost.get_child(0).region_rect	
+	$Sprite2D.region_rect = ghost.get_child(0).region_rect
 
 func _on_belt_detected(area: Area2D) -> void:
 	await get_tree().process_frame

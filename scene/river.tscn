@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cdr0p5t4otiw4"]
 
-[ext_resource type="Script" path="res://Scripts/river.gd" id="1_1yv67"]
+[ext_resource type="Script" uid="uid://bfk7kcx7virx" path="res://Scripts/river.gd" id="1_1yv67"]
 [ext_resource type="Texture2D" uid="uid://37cjuw1tjukh" path="res://Ressources/TileSetBase.png" id="1_pohbl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jrt04"]

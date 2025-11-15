@@ -109,7 +109,7 @@ func _input(event: InputEvent) -> void:
 				sellBuilding(setCenterOfCell(building.get_local_mouse_position()))
 				
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	totalFlesh.text = str(money)
 	if Input.is_action_pressed("addFlesh"):
 		var rng = RandomNumberGenerator.new()
@@ -308,7 +308,7 @@ func sellBuilding(pos) -> void:
 		return 
 		
 	for x in $Turrets.get_child_count():
-		var turret = $ConveyorBelts.get_child(x)
+		var turret = $Turrets.get_child(x)
 		if turret.position == pos :
 			refund(turret)
 			turret.free()
@@ -354,7 +354,6 @@ func refund(obj) -> void:
 func refundPath() -> void:
 	money += roundi(pathCost * refundInflation)
 	pathCost = roundi(pathCost / pathInflation)
-	
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	var event = InputEventAction.new()
@@ -363,6 +362,5 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	Input.parse_input_event(event)
 	body.queue_free()
 
-
 func _on_test_feature_pressed() -> void:
-	storyDialogue.nextText("greeting")
+	storyDialogue.dialog1()

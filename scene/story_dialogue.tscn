@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cg1k8cfiroag7" path="res://Ressources/textBox.jpg" id="2_m111h"]
 
 [node name="StoryDialogue" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_uvc7y")
 
 [node name="Dialogue" type="Control" parent="."]

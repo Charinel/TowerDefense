@@ -10,6 +10,7 @@ func _ready():
 	$Sprite2D.region_rect = Rect2(region_pos * FRAME_SIZE, FRAME_SIZE)
 	
 func setDefaultSprite() -> void :
+	region_pos = Vector2(2,1)
 	$Sprite2D.region_enabled = true
 	$Sprite2D.region_rect = Rect2(region_pos * FRAME_SIZE, FRAME_SIZE)
 	

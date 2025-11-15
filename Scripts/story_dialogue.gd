@@ -11,37 +11,56 @@ var militaryImage = Image.load_from_file("res://Ressources/capyTank.png")
 var militaryTexture = ImageTexture.create_from_image(militaryImage)
 
 var orderInArray = 0
+var currentDiag = ""
 var dictionaire = {
-	#utiliser json file à la place
-	"greeting": ["mon nom est vidange","j'aime les tortues","mon nom est poil","je veux du steak"],
-	"words" : ["je suis gay","pas moi"]
+	#On lit le fichier coms.json pour remplir les données nécessaire
 }
 var personagesTexture = {
 	"greeting": [mainTexture,mainTexture,militaryTexture,militaryTexture],
 	"words" : [mainTexture,militaryTexture]
 }
 
-#● Stringlanguage [default: ""]set_language(value) setterget_language() getter
-# à utiliser dans un futur pour avoir des languages différent
-#Language code used for line-breaking and text shaping algorithms, if left empty current locale is used instead.
+var json_file_path = "res://data/coms.json" #hard code pour l'instant mais on va load selon la langue selectionné
+
+func loadJson() -> void:
+	if FileAccess.file_exists(json_file_path):
+		var file = FileAccess.open(json_file_path, FileAccess.READ)
+		parse_json(file.get_as_text())
+		file.close()
+	else:
+		print("Error: File not found")
+
+func parse_json(json_string):
+	var json = JSON.new()
+	var error = json.parse(json_string)
+	if error == OK:
+		dictionaire = json.data
+	else:
+		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 
 func _ready() -> void:
-	dialog1()
+	#process_mode = Node.PROCESS_MODE_PAUSABLE va le changer quand le menu pause pop
+	loadJson()
+	hideText()
 
 func showText() -> void:
+	get_tree().paused = true
 	textArea.show()
 	speaker.show()
 	text.show()
 	
 func hideText() -> void:
+	get_tree().paused = false
 	textArea.hide()
 	speaker.hide()
 	text.hide()
+	currentDiag = ""
 
 func dialog1() -> void:
 	showText()
-	text.text = dictionaire["greeting"][orderInArray]
-	speaker.texture = personagesTexture["greeting"][orderInArray]
+	currentDiag = "greeting"
+	text.text = dictionaire[currentDiag][orderInArray]
+	speaker.texture = personagesTexture[currentDiag][orderInArray]
 
 func nextText(diag) -> void:
 	orderInArray += 1
@@ -49,4 +68,20 @@ func nextText(diag) -> void:
 		text.text = dictionaire[diag][orderInArray]
 		speaker.texture = personagesTexture[diag][orderInArray]
 	else :
+		orderInArray = 0
 		hideText()
+		
+func prevText(diag) -> void:
+	orderInArray -= 1
+	if dictionaire[diag].size() > orderInArray and orderInArray >= 0:
+		text.text = dictionaire[diag][orderInArray]
+		speaker.texture = personagesTexture[diag][orderInArray]
+	else :
+		orderInArray = 0
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouse:
+		if (event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT) and textArea.visible:
+			nextText(currentDiag)
+		if (event.is_pressed() and event.button_index == MOUSE_BUTTON_RIGHT) and textArea.visible:
+			prevText(currentDiag)
