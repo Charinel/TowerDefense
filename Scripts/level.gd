@@ -20,6 +20,7 @@ var turretGhost_scene: PackedScene = load("res://scene/turret_ghost.tscn")
 @onready var building: TileMapLayer = $Map/Building
 @onready var roundSystem: Node2D = $RoundSystem
 @onready var gracePeriodTimer: Timer = $"CanvasLayer/UI/Build mode/Start Round/GracePeriod"
+@onready var storyDialogue: Node2D = $CanvasLayer/UI/StoryDialogue
 
 
 var amountOfPixelInATile = 16
@@ -361,3 +362,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	event.pressed = true
 	Input.parse_input_event(event)
 	body.queue_free()
+
+
+func _on_test_feature_pressed() -> void:
+	storyDialogue.nextText("greeting")

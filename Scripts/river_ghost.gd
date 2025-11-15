@@ -14,7 +14,6 @@ func setDefaultSprite() -> void :
 	$Sprite2D.region_rect = Rect2(region_pos * FRAME_SIZE, FRAME_SIZE)
 	
 func changeOrientation() -> void :
-	var region_pos = Vector2(2,1)
 	var ghostDirection = Vector2.DOWN.rotated(rotation).round()
 	var directionOfPlaced = lastConveyor.direction
 	

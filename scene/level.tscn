@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b6pwd1s2gh0ka"]
+[gd_scene load_steps=25 format=3 uid="uid://b6pwd1s2gh0ka"]
 
 [ext_resource type="Script" uid="uid://cgolc74dmvm53" path="res://Scripts/level.gd" id="1_fncym"]
 [ext_resource type="Script" uid="uid://1aspwyuc17yf" path="res://Scripts/truc_a_defendre.gd" id="3_oskny"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://tit6seeljb53" path="res://Ressources/healthbarUnder.png" id="4_o13pb"]
 [ext_resource type="Texture2D" uid="uid://cbi0ngwd7vub3" path="res://Ressources/trucADefendre.png" id="4_u2b8d"]
 [ext_resource type="Texture2D" uid="uid://dk568bpmn5kns" path="res://Ressources/healthbarProgress.png" id="5_cyxtk"]
+[ext_resource type="PackedScene" uid="uid://ca7y8sjaild1f" path="res://scene/story_dialogue.tscn" id="6_aw33w"]
 [ext_resource type="ButtonGroup" uid="uid://nhyrr4v5rbkt" path="res://Ressources/BuildModeGroup.tres" id="6_o6wqb"]
 
 [sub_resource type="Gradient" id="Gradient_w74fn"]
@@ -804,6 +805,8 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
+[node name="StoryDialogue" parent="CanvasLayer/UI" instance=ExtResource("6_aw33w")]
+
 [node name="TotalFlesh" type="Label" parent="CanvasLayer/UI"]
 z_index = 100
 layout_mode = 0
@@ -920,6 +923,19 @@ toggle_mode = true
 text = "Sell"
 metadata/_edit_use_anchors_ = true
 
+[node name="testFeature" type="Button" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.688
+anchor_top = 0.939
+anchor_right = 0.777
+anchor_bottom = 0.996
+offset_left = 0.039917
+offset_top = -0.120056
+offset_right = 0.160034
+offset_bottom = 0.319946
+text = "test feature button"
+
 [connection signal="body_entered" from="TrucADefendre/Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="SpawnDelay" to="." method="_on_spawn_delay_timeout"]
 [connection signal="timeout" from="MoveEnemies" to="." method="moveEnemyToNextTile"]
@@ -929,3 +945,4 @@ metadata/_edit_use_anchors_ = true
 [connection signal="pressed" from="CanvasLayer/UI/Build mode/Path" to="." method="_on_path_pressed"]
 [connection signal="pressed" from="CanvasLayer/UI/Build mode/Start Round" to="." method="_on_start_round_pressed"]
 [connection signal="pressed" from="CanvasLayer/UI/Build mode/Sell" to="." method="_on_sell_pressed"]
+[connection signal="pressed" from="CanvasLayer/UI/testFeature" to="." method="_on_test_feature_pressed"]

@@ -21,7 +21,7 @@ func _init():
 func _ready() -> void:
 	target = call_deferred("findTarget")
 	
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if target != null:
 		var angleToTarget = global_position.direction_to(target.global_position).angle() - (PI/2)
 		ray_cast_2d.global_rotation = angleToTarget

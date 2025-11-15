@@ -15,8 +15,8 @@ func _ready() -> void:
 	for i in range(0, 5001, 50):
 		listOfPower.append(i)
 
-func getPowerLevel(roundNumber) -> int:
-	return listOfPower[roundNumber]
+func getPowerLevel(roundNumberReceived) -> int:
+	return listOfPower[roundNumberReceived]
 
 func start() -> void:
 	powerLvl = getPowerLevel(roundNumber)
