@@ -61,6 +61,8 @@ func _input(event: InputEvent) -> void:
 						currentGhost.changeOrientation()
 				
 	if event is InputEventMouse:
+		if (event.is_pressed() and event.button_index == MOUSE_BUTTON_RIGHT):
+			clearSelection()
 		if (event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT):
 			#turret option selected
 			if turretButton.button_pressed :
@@ -139,7 +141,6 @@ func _process(_delta: float) -> void:
 		for x in $Mines.get_child_count():
 			if $Mines.get_child(x).name != "FarmerGhost":
 				$Mines.get_child(x).startProduction()
-	
 
 func spawn() -> void:
 	var enemies = enemies_scene.instantiate()
@@ -361,6 +362,19 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	event.pressed = true
 	Input.parse_input_event(event)
 	body.queue_free()
+	
+func clearSelection() -> void:
+	clearGhost()
+	turretButton.button_pressed = false
+	turretButton.release_focus()
+	mineButton.button_pressed = false
+	mineButton.release_focus()
+	conveyorBeltButton.button_pressed = false
+	conveyorBeltButton.release_focus()
+	pathButton.button_pressed = false
+	pathButton.release_focus()
+	sellButton.button_pressed = false
+	sellButton.release_focus()
 
 func _on_test_feature_pressed() -> void:
 	storyDialogue.dialog1()
