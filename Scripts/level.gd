@@ -21,6 +21,7 @@ var turretGhost_scene: PackedScene = load("res://scene/turret_ghost.tscn")
 @onready var roundSystem: Node2D = $RoundSystem
 @onready var gracePeriodTimer: Timer = $"CanvasLayer/UI/Build mode/Start Round/GracePeriod"
 @onready var storyDialogue: Node2D = $CanvasLayer/UI/StoryDialogue
+@onready var pause_menu: Node = $CanvasLayer/PauseMenu
 
 
 var amountOfPixelInATile = 16
@@ -59,6 +60,9 @@ func _input(event: InputEvent) -> void:
 					currentGhost.direction = Vector2.DOWN.rotated(currentGhost.rotation).round()
 					if currentGhost.lastConveyor != null :
 						currentGhost.changeOrientation()
+			KEY_ESCAPE:
+				if pause_menu.timer.is_stopped():
+					pause_menu.showMenu()
 				
 	if event is InputEventMouse:
 		if (event.is_pressed() and event.button_index == MOUSE_BUTTON_RIGHT):

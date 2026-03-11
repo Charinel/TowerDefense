@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://b6pwd1s2gh0ka"]
+[gd_scene load_steps=26 format=3 uid="uid://b6pwd1s2gh0ka"]
 
 [ext_resource type="Script" uid="uid://cgolc74dmvm53" path="res://Scripts/level.gd" id="1_fncym"]
 [ext_resource type="Script" uid="uid://1aspwyuc17yf" path="res://Scripts/truc_a_defendre.gd" id="3_oskny"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dk568bpmn5kns" path="res://Ressources/healthbarProgress.png" id="5_cyxtk"]
 [ext_resource type="PackedScene" uid="uid://ca7y8sjaild1f" path="res://scene/story_dialogue.tscn" id="6_aw33w"]
 [ext_resource type="ButtonGroup" uid="uid://nhyrr4v5rbkt" path="res://Ressources/BuildModeGroup.tres" id="6_o6wqb"]
+[ext_resource type="PackedScene" uid="uid://da54apc521ww8" path="res://scene/PauseMenu.tscn" id="10_ktmlt"]
 
 [sub_resource type="Gradient" id="Gradient_w74fn"]
 interpolation_mode = 1
@@ -935,6 +936,8 @@ offset_bottom = 0.319946
 text = "test feature button"
 
 [node name="StoryDialogue" parent="CanvasLayer/UI" instance=ExtResource("6_aw33w")]
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("10_ktmlt")]
 
 [connection signal="body_entered" from="TrucADefendre/Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="SpawnDelay" to="." method="_on_spawn_delay_timeout"]
