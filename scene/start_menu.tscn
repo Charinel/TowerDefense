@@ -1,0 +1,76 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwimdlodtcfdt"]
+
+[ext_resource type="Script" uid="uid://cpiwtaic3aoox" path="res://Scripts/start_menu.gd" id="1_e43t8"]
+[ext_resource type="AudioStream" uid="uid://cpww4wgk7le5c" path="res://Ressources/Music/Evanescence - Going Under (Official HD Music Video).mp3" id="2_p6ge0"]
+
+[node name="StartMenu" type="Node2D"]
+script = ExtResource("1_e43t8")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="MenuContainer" type="BoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 592.0
+offset_top = -50.0
+offset_right = -408.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MenuContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Start" type="Button" parent="Control/MenuContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Start game"
+
+[node name="Options" type="Button" parent="Control/MenuContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Options"
+
+[node name="Quit" type="Button" parent="Control/MenuContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Quit game"
+
+[node name="OptionsContainer" type="VBoxContainer" parent="Control"]
+visible = false
+layout_mode = 0
+offset_left = 592.0
+offset_top = 490.0
+offset_right = 1512.0
+offset_bottom = 590.0
+
+[node name="Label" type="Label" parent="Control/OptionsContainer"]
+layout_mode = 2
+text = "Background Music"
+
+[node name="BackgorundMusicSlider" type="HSlider" parent="Control/OptionsContainer"]
+layout_mode = 2
+max_value = 3.0
+step = 0.1
+
+[node name="Back" type="Button" parent="Control/OptionsContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_p6ge0")
+volume_db = -15.0
+
+[connection signal="pressed" from="Control/MenuContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Control/MenuContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Control/MenuContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="drag_ended" from="Control/OptionsContainer/BackgorundMusicSlider" to="." method="_on_backgorund_music_slider_drag_ended"]
+[connection signal="pressed" from="Control/OptionsContainer/Back" to="." method="_on_back_pressed"]

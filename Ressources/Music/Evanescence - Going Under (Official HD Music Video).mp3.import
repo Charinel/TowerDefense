@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cpww4wgk7le5c"
+path="res://.godot/imported/Evanescence - Going Under (Official HD Music Video).mp3-1983e52abd23ef60064222fa63dd376e.mp3str"
+
+[deps]
+
+source_file="res://Ressources/Music/Evanescence - Going Under (Official HD Music Video).mp3"
+dest_files=["res://.godot/imported/Evanescence - Going Under (Official HD Music Video).mp3-1983e52abd23ef60064222fa63dd376e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
