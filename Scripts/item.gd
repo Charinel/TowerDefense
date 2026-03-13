@@ -1,11 +1,11 @@
-extends Node2D
+extends "res://Scripts/enums.gd"
 
 var direction: Vector2 = Vector2.ZERO
 var velocity := Vector2.ZERO
 var current_conveyor: Node = null
 var blocked
 var bullet = 5
-var type = "normal"
+var type : stateOfItem = stateOfItem.NORMAL
 @export var speed: float = 16.0      
 
 # Called when the node enters the scene tree for the first time.

@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://mu6jrromd5rh"]
+
+[ext_resource type="Script" uid="uid://bdf52868m3vq0" path="res://Scripts/usine.gd" id="1_0nr8a"]
+[ext_resource type="Texture2D" uid="uid://dukp4b2m8ugq" path="res://Ressources/usine.png" id="1_udgd1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0nr8a"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lofgg"]
+size = Vector2(16, 16)
+
+[node name="Usine" type="Node2D"]
+script = ExtResource("1_0nr8a")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_udgd1")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(0, 16)
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, 8)
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_0nr8a")
+
+[node name="AreaOfItself" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaOfItself"]
+shape = SubResource("RectangleShape2D_lofgg")
+
+[connection signal="area_entered" from="AreaOfItself" to="." method="_on_area_of_itself_area_entered"]

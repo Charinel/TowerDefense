@@ -1,0 +1,3 @@
+extends Node2D
+enum stateOfItem {NORMAL,FIRE,ASH,FREEZE,DEEPFREEZE,DRIED,ULTRADRY}
+enum factoryType {FURNACE,FREEZER,DRYER}

@@ -1,4 +1,4 @@
-extends Node2D
+extends "res://Scripts/enums.gd"
 
 var cost := 0
 

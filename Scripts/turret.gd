@@ -8,7 +8,7 @@ var target: Node2D = null
 @onready var sprite_2d: Sprite2D = $Sprite2D
 var newTarget = null
 var counter = 0
-var itemType = "normal"
+var itemType: stateOfItem = stateOfItem.NORMAL
 
 const maxBullet = 20
 var remaningBullet = 10 #on start avec un certain nombre pour pas être bs vu que sa coute dequoi la build
