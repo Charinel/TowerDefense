@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bwimdlodtcfdt"]
+[gd_scene load_steps=3 format=3 uid="uid://bwimdlodtcfdt"]
 
 [ext_resource type="Script" uid="uid://cpiwtaic3aoox" path="res://Scripts/start_menu.gd" id="1_e43t8"]
 [ext_resource type="PackedScene" uid="uid://dmepamieo1tt0" path="res://scene/settings.tscn" id="2_nld4k"]
-[ext_resource type="AudioStream" uid="uid://cpww4wgk7le5c" path="res://Ressources/Music/Evanescence - Going Under (Official HD Music Video).mp3" id="2_p6ge0"]
 
 [node name="StartMenu" type="Node2D"]
 script = ExtResource("1_e43t8")
@@ -49,7 +48,6 @@ text = "Quit game"
 layout_mode = 1
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_p6ge0")
 volume_db = -15.0
 
 [connection signal="pressed" from="Control/MenuContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]

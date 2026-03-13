@@ -9,22 +9,38 @@ const GAME = preload("res://scene/level.tscn")
 
 
 var totalSong = 0
-var musicDirectory : DirAccess = DirAccess.open("res://Ressources/Music")
+var musicDirectory : DirAccess = DirAccess.open("res://Ressources/Music/Menu")
 var settingArray : Array = []
+var playlist : Array = []
 const BACKGROUNDVOLUME = 0
 
 func _ready() -> void:
-	fillPlaylist()
+	background_music.stream = fillPlaylist()
 	settings.parent = self
 	settingArray = settings.loadSettings()
 	background_music.volume_linear = settingArray[BACKGROUNDVOLUME]
-	var rondomNumber :int = randi() % totalSong
-	background_music.play() #TO DO add randomiser
+	background_music.play()
 	
-func fillPlaylist() -> void:
+func fillPlaylist():
 	if musicDirectory:
 		var songFilePath : PackedStringArray = musicDirectory.get_files()
 		totalSong = songFilePath.size()
+		var randomNumber :int = randi() % totalSong/2#divise par 2 parceque godot ajoute un importe a chaque tune
+		for x in range (0,totalSong,2) :
+			print(songFilePath[x])
+			playlist.append(songFilePath[x])
+		return load_mp3(musicDirectory.get_current_dir() + '/' + playlist[randomNumber])
+
+func load_mp3(path):
+	var sound
+	print(path)
+	if FileAccess.file_exists(path):
+		var file = FileAccess.open(path, FileAccess.READ)
+		sound = AudioStreamMP3.new()
+		sound.data = file.get_buffer(file.get_length())
+	else:
+		print("Error: File not found")
+	return sound
 
 func _on_start_pressed() -> void:
 	get_tree().change_scene_to_packed(GAME)

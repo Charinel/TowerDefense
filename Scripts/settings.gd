@@ -16,8 +16,6 @@ func saveSettings() -> void:
 		print(settingArray.size())
 		for x in settingArray.size() - 1:
 			var temp = str(settingArray[x]) + ";"
-			print(settingArray[x])
-			print(temp)
 			settingsContent += temp
 		file.store_string(settingsContent)
 		file.close()
