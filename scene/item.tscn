@@ -19,7 +19,6 @@ collision_layer = 8
 collision_mask = 8
 gravity_scale = 0.0
 script = ExtResource("1_tcap3")
-speed = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_2dj27")
@@ -35,7 +34,7 @@ collision_mask = 8
 shape = SubResource("RectangleShape2D_de0lb")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 32
+collision_layer = 40
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]

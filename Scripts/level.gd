@@ -4,9 +4,13 @@ var enemies_scene: PackedScene = load("res://scene/enemies.tscn")
 var turret_scene: PackedScene = load("res://scene/turret.tscn")
 var farmer_scene: PackedScene = load("res://scene/farmer.tscn")
 var river_scene: PackedScene = load("res://scene/river.tscn")
+var furnace_scene: PackedScene = preload("res://scene/four.tscn")
+
 var riverGhost_scene: PackedScene = load("res://scene/river_ghost.tscn")
 var farmerGhost_scene: PackedScene = load("res://scene/farmer_ghost.tscn")
 var turretGhost_scene: PackedScene = load("res://scene/turret_ghost.tscn")
+var factoryGhost_scene: PackedScene = load("res://scene/factory_ghost.tscn")
+
 @onready var tileMapNormalTiles: TileMapLayer = $Map/NormalTiles
 @onready var enemy_tiles: TileMapLayer = $Map/EnemyTiles
 @onready var totalFlesh: Label = $CanvasLayer/UI/TotalFlesh
@@ -17,6 +21,8 @@ var turretGhost_scene: PackedScene = load("res://scene/turret_ghost.tscn")
 @onready var pathButton: Button = $"CanvasLayer/UI/Build mode/Path"
 @onready var start_roundButton: Button = $"CanvasLayer/UI/Build mode/Start Round"
 @onready var sellButton: Button = $"CanvasLayer/UI/Build mode/Sell"
+@onready var factoryButton: Button = $"CanvasLayer/UI/Build mode/Factory"
+
 @onready var building: TileMapLayer = $Map/Building
 @onready var roundSystem: Node2D = $RoundSystem
 @onready var gracePeriodTimer: Timer = $"CanvasLayer/UI/Build mode/Start Round/GracePeriod"
@@ -114,6 +120,14 @@ func _input(event: InputEvent) -> void:
 			elif sellButton.button_pressed :
 				sellBuilding(setCenterOfCell(building.get_local_mouse_position()))
 				
+			elif factoryButton.button_pressed :
+				var factory = furnace_scene.instantiate()
+				factory.position = setCenterOfCell(building.get_local_mouse_position())
+				if checkIfThereIsPlace(factory.position) and checkMoney(factory.get_cost()):
+					$Factories.add_child(factory)
+				else :
+					factory.free()
+				
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	totalFlesh.text = str(money)
@@ -204,6 +218,7 @@ func setButtonOff() -> void:
 	mineButton.button_pressed = false
 	pathButton.button_pressed = false
 	sellButton.button_pressed = false
+	factoryButton.button_pressed = false
 
 func _on_turret_pressed() -> void:
 	setButtonOff()
@@ -333,6 +348,13 @@ func sellBuilding(pos) -> void:
 			mine.free()
 			return
 			
+	for x in $Factories.get_child_count():
+		var factory = $Factories.get_child(x)
+		if factory.position == pos :
+			refund(factory)
+			factory.free()
+			return
+			
 	if enemy_tiles.get_cell_atlas_coords(building.local_to_map(pos)) != Vector2i(-1, -1):
 		enemy_tiles.erase_cell(building.local_to_map(pos))
 		refundPath()
@@ -379,6 +401,14 @@ func clearSelection() -> void:
 	pathButton.release_focus()
 	sellButton.button_pressed = false
 	sellButton.release_focus()
+	turretButton.button_pressed = false
+	turretButton.release_focus()
 
 func _on_test_feature_pressed() -> void:
 	storyDialogue.dialog1()
+
+func _on_factory_pressed() -> void:
+	setButtonOff()
+	factoryButton.button_pressed = true
+	changeGhost(currentGhost, factoryGhost_scene)
+	$Factories.add_child(currentGhost)

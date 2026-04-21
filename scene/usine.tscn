@@ -16,6 +16,7 @@ script = ExtResource("1_0nr8a")
 texture = ExtResource("1_udgd1")
 
 [node name="Timer" type="Timer" parent="."]
+one_shot = true
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(0, 16)
@@ -36,4 +37,6 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaOfItself"]
 shape = SubResource("RectangleShape2D_lofgg")
 
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="area_entered" from="AreaOfItself" to="." method="_on_area_of_itself_area_entered"]

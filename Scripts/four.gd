@@ -1,23 +1,31 @@
 extends Usine
+@onready var craftingTime: Timer = $Timer
 
 func _on_area_of_itself_area_entered(area: Area2D) -> void:
-	var newItemEntered = area.get_parent()
+	if canAcceptItem :
+		setTypeOfItem(area.get_parent())
+		area.get_parent().queue_free()
+	else : holdItem = area.get_parent()
+	
+func setTypeOfItem(item)-> void:
 
-	match newItemEntered.type:
+	match item.type:
 		stateOfItem.NORMAL:
-			newItemEntered.type = stateOfItem.FIRE
+			item_scene = load("res://scene/item/fireItem.tscn")
+			item.type = stateOfItem.FIRE
 		stateOfItem.FIRE:
-			newItemEntered.type = stateOfItem.ASH
+			item_scene = load("res://scene/item/asheItem.tscn")
+			item.type = stateOfItem.ASH
 		stateOfItem.ASH:
-			#deltete the item
-			pass
+			item.type = stateOfItem.DESTROY
 		stateOfItem.FREEZE:
-			newItemEntered.type = stateOfItem.NORMAL
+			item.type = stateOfItem.NORMAL
 		stateOfItem.DEEPFREEZE:
-			newItemEntered.type = stateOfItem.FREEZE
+			item.type = stateOfItem.FREEZE
 		stateOfItem.DRIED:
 			#Fire Pierce
 			pass
 		stateOfItem.ULTRADRY:
-			#Met le delais pareil mais rien ne change
-			pass
+			item.type = stateOfItem.DESTROY
+	item.queue_free()
+	startProduction()

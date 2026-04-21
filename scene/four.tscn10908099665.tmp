@@ -5,8 +5,8 @@
 
 [node name="Usine" instance=ExtResource("1_joeg3")]
 script = ExtResource("2_tsinr")
+spawn_interval = null
+spawn_direction = null
 
 [node name="Area2D" parent="." index="3"]
 collision_layer = 64
-
-[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

@@ -1,11 +1,12 @@
 extends "res://Scripts/enums.gd"
+class_name Item
 
 var direction: Vector2 = Vector2.ZERO
 var velocity := Vector2.ZERO
 var current_conveyor: Node = null
 var blocked
-var bullet = 5
-var type : stateOfItem = stateOfItem.NORMAL
+@export var bullet = 5
+@export var type : stateOfItem = stateOfItem.NORMAL
 @export var speed: float = 16.0      
 
 # Called when the node enters the scene tree for the first time.
@@ -47,5 +48,5 @@ func _physics_process(delta):
 		var offset = (global_position - target_pos).dot(perp_axis)
 		global_position -= perp_axis * offset
 	
-	if not blocked:	
+	if not blocked:
 		global_position += velocity * delta
