@@ -1,9 +1,10 @@
-extends Area2D
+extends "res://Scripts/enums.gd"
 
 const RIGHT = Vector2.RIGHT
 @export var speed = 200
 var pierce = 2
 @export var damage = 10
+var appliedEffect = effect.NOEFFECT
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

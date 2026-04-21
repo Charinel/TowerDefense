@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dukp4b2m8ugq" path="res://Ressources/usine.png" id="1_omvkt"]
 
-[node name="Node2D" type="Node2D"]
+[node name="FactoryGhost" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.501961)

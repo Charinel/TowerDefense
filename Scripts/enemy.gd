@@ -6,6 +6,9 @@ var movementSpeed = 100
 var collision
 @onready var hp = $HealthBar.max_value
 var powerCost = 10
+@onready var negative_effect: Timer = $NegativeEffect
+@onready var dmg_tick: Timer = $NegativeEffect/dmgTick
+var effect: Effect
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -23,6 +26,9 @@ func _physics_process(delta: float) -> void:
 	var nextPosition = navigation_agent_2d.get_next_path_position()
 	velocity = currentPosition.direction_to(nextPosition) * movementSpeed
 	collision = move_and_collide(velocity * delta)
+	
+	if !negative_effect.is_stopped() and dmg_tick.is_stopped() and effect.effect.BURN:
+		hp -= hp * .1
 
 func hit(damage) -> void:
 	hp -= damage
@@ -33,3 +39,9 @@ func hit(damage) -> void:
 		event.pressed = true
 		Input.parse_input_event(event)
 		queue_free()
+
+func setOnFire()-> void:
+	negative_effect.wait_time = 3
+	negative_effect.stop()
+	negative_effect.start()
+	
