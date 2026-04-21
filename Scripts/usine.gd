@@ -2,7 +2,7 @@ extends "res://Scripts/placable.gd"
 class_name Usine
 
 @export var item_scene: PackedScene = load("res://scene/item.tscn")
-@export var spawn_interval = .5  # Temps pour effectuer le craft
+@export var spawn_interval = 2  # Temps pour effectuer le craft
 @export var spawn_direction = Vector2.DOWN  # Direction de départ de l'item
 
 var typeOfFactory : factoryType
@@ -29,12 +29,12 @@ func _on_timer_timeout():
 			return
 			
 	canAcceptItem = true
-		
-	var tempItem = item_scene.instantiate()
-	tempItem.position = $Marker2D.global_position
-	if tempItem.has_method("set_direction"):
-		tempItem.set_direction(spawn_direction)
-	get_tree().current_scene.add_child(tempItem)
+	
+	item = item_scene.instantiate()
+	item.position = $Marker2D.global_position
+	if item.has_method("set_direction"):
+		item.set_direction(spawn_direction)
+	get_tree().current_scene.add_child(item)
 	if holdItem != null :
 		setTypeOfItem(holdItem)
 
@@ -48,7 +48,7 @@ func stopProduction() -> void:
 func _on_area_2d_area_exited(area: Area2D) -> void:
 	if $Timer.is_stopped() and holdItem != null:
 		canAcceptItem = true
-		
+
 		var tempItem = item_scene.instantiate()
 		tempItem.position = $Marker2D.global_position
 		if tempItem.has_method("set_direction"):
