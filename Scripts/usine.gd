@@ -23,9 +23,10 @@ func setTypeOfItem(item)-> void:
 	
 func _on_timer_timeout():
 	var overlapping = $Area2D.get_overlapping_bodies()
-		
+	
 	for body in overlapping: #Vérification si des items sont présent dans le output
 		if body.is_in_group("items"):
+			holdItem = item
 			return
 			
 	canAcceptItem = true
@@ -37,6 +38,7 @@ func _on_timer_timeout():
 	get_tree().current_scene.add_child(item)
 	if holdItem != null :
 		setTypeOfItem(holdItem)
+		holdItem.queue_free()
 
 func startProduction() -> void:
 	canAcceptItem = false
@@ -56,3 +58,4 @@ func _on_area_2d_area_exited(area: Area2D) -> void:
 		get_tree().current_scene.add_child(tempItem)
 		if holdItem != null :
 			setTypeOfItem(holdItem)
+			holdItem.queue_free()

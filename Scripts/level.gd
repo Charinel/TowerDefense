@@ -324,7 +324,6 @@ func _on_sell_pressed() -> void:
 	setButtonOff()
 	sellButton.button_pressed = true
 	clearGhost()
-	
 
 func sellBuilding(pos) -> void:
 	if pos.y >= windowYAxis :

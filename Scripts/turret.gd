@@ -76,6 +76,7 @@ func _on_area_entered(area: Area2D) -> void:
 	if newAmmoEntered.type != itemType:
 		remaningBullet = newAmmoEntered.bullet
 		itemType = newAmmoEntered.type
+		loadRightTypeOfBullet()
 		newAmmoEntered.free()
 	else :
 		var tempBullet = remaningBullet + newAmmoEntered.bullet
@@ -86,3 +87,21 @@ func _on_area_entered(area: Area2D) -> void:
 		else : 
 			ammoOverload = true
 			lastAmmoEntered = newAmmoEntered
+			
+func loadRightTypeOfBullet() -> void:
+	match itemType:
+			stateOfItem.NORMAL:
+				bullet = load("res://scene/bullet.tscn")
+			stateOfItem.FIRE:
+				bullet = load("res://scene/bullet/fireBullet.tscn")
+			stateOfItem.ASH:
+				bullet = load("res://scene/item/destroyItem.tscn") #TO DO
+			stateOfItem.FREEZE:
+				bullet = load("res://scene/item.tscn") #TO DO
+			stateOfItem.DEEPFREEZE:
+				bullet = load("res://scene/item.tscn") #TO DO
+			stateOfItem.DRIED:
+				#Fire Pierce #TO DO
+				pass
+			stateOfItem.ULTRADRY:
+				bullet = load("res://scene/item/destroyItem.tscn") #TO DO

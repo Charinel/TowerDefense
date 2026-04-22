@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cv2uceglpnyig" path="res://Ressources/fireItem.png" id="2_4yqhc"]
 
 [node name="Item" instance=ExtResource("1_c5bue")]
+bullet = 3
 type = 2
 
 [node name="Sprite" parent="." index="1"]
