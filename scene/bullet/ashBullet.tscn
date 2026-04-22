@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://qr4i860n4uwh"]
+
+[ext_resource type="PackedScene" uid="uid://1mutk85m0ktg" path="res://scene/bullet.tscn" id="1_aa84r"]
+[ext_resource type="Script" uid="uid://dtvkstrj70oxc" path="res://scene/bullet/ash_bullet.gd" id="2_75gtv"]
+[ext_resource type="Texture2D" uid="uid://c54vytf5ij0qg" path="res://Ressources/asheBullet.png" id="2_ds7dm"]
+
+[node name="Bullet" instance=ExtResource("1_aa84r")]
+script = ExtResource("2_75gtv")
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_ds7dm")

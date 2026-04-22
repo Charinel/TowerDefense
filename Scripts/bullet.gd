@@ -27,7 +27,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies"):
 		pierce -= 1
 		if body.has_method("hit"):
-			body.hit(damage)
+			body.hit(damage, appliedEffect)
 		
 		if pierce == 0:
 			destroy()

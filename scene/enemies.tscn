@@ -32,3 +32,5 @@ show_percentage = false
 one_shot = true
 
 [node name="dmgTick" type="Timer" parent="NegativeEffect"]
+
+[connection signal="timeout" from="NegativeEffect" to="." method="_on_negative_effect_timeout"]

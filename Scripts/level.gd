@@ -189,6 +189,8 @@ func checkIfThereIsPlace(pos: Vector2)-> bool:
 	for x in $Factories.get_child_count():
 		if $Factories.get_child(x).position == pos and $Factories.get_child(x).name != "FactoryGhost":
 			return false
+	if enemy_tiles.get_cell_tile_data(Vector2((pos.x)/amountOfPixelInATile,(pos.y)/amountOfPixelInATile)) != null :
+		return false
 	return true
 
 func generateMap()-> void: #generate the map with a noise map
