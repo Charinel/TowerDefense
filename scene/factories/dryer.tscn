@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo4lqomij8cp"]
+
+[ext_resource type="PackedScene" uid="uid://mu6jrromd5rh" path="res://scene/usine.tscn" id="1_yv0po"]
+[ext_resource type="Texture2D" uid="uid://5ecuwatnqpyq" path="res://Ressources/dryer.png" id="2_pj3eb"]
+
+[node name="Usine" instance=ExtResource("1_yv0po")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_pj3eb")

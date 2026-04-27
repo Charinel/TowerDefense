@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://cxtwbrfrqcmvw"]
 
-[ext_resource type="Texture2D" uid="uid://dukp4b2m8ugq" path="res://Ressources/usine.png" id="1_omvkt"]
+[ext_resource type="Texture2D" uid="uid://dukp4b2m8ugq" path="res://Ressources/usine.png" id="1_wwvi4"]
 
 [node name="FactoryGhost" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.501961)
-texture = ExtResource("1_omvkt")
+texture = ExtResource("1_wwvi4")

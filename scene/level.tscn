@@ -827,6 +827,17 @@ offset_top = -6222.28
 offset_right = -2640.0
 offset_bottom = -6586.92
 
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/UI/Build mode"]
+z_index = -1
+layout_mode = 1
+anchors_preset = -1
+anchor_top = -0.158
+anchor_right = 1.0
+anchor_bottom = 1.671
+offset_top = 0.00800037
+offset_bottom = 0.00399017
+color = Color(0.42, 0.42, 0.42, 1)
+
 [node name="Turret" type="Button" parent="CanvasLayer/UI/Build mode"]
 layout_mode = 1
 anchors_preset = -1
@@ -892,6 +903,68 @@ button_group = ExtResource("6_o6wqb")
 text = "Factory"
 metadata/_edit_use_anchors_ = true
 
+[node name="FactoryType" type="Control" parent="CanvasLayer/UI/Build mode/Factory"]
+visible = false
+modulate = Color(1, 1, 1, 0.858824)
+layout_mode = 1
+anchor_top = -1.05
+anchor_right = 1.0
+offset_left = -665.0
+offset_top = -930.4
+offset_right = -800.0
+offset_bottom = -966.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/UI/Build mode/Factory/FactoryType"]
+z_index = -1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 16.625
+anchor_top = 23.275
+anchor_right = 20.975
+anchor_bottom = 25.1
+offset_top = -6.10352e-05
+color = Color(0.42, 0.42, 0.42, 1)
+
+[node name="Furnace" type="Button" parent="CanvasLayer/UI/Build mode/Factory/FactoryType"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 16.65
+anchor_top = 23.375
+anchor_right = 18.65
+anchor_bottom = 24.15
+offset_left = -6.10352e-05
+offset_top = -6.10352e-05
+offset_right = -6.10352e-05
+offset_bottom = -6.10352e-05
+toggle_mode = true
+text = "Furnace"
+
+[node name="Freezer" type="Button" parent="CanvasLayer/UI/Build mode/Factory/FactoryType"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 19.0
+anchor_top = 24.3
+anchor_right = 21.0
+anchor_bottom = 25.075
+offset_top = -6.10352e-05
+offset_right = -6.10352e-05
+toggle_mode = true
+text = "Freezer"
+
+[node name="Dryer" type="Button" parent="CanvasLayer/UI/Build mode/Factory/FactoryType"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 16.65
+anchor_top = 24.3
+anchor_right = 18.65
+anchor_bottom = 25.075
+offset_left = -6.10352e-05
+offset_top = -6.10352e-05
+offset_right = -6.10352e-05
+toggle_mode = true
+text = "Dryer
+"
+
 [node name="Path" type="Button" parent="CanvasLayer/UI/Build mode"]
 layout_mode = 1
 anchors_preset = -1
@@ -954,6 +1027,7 @@ offset_bottom = 0.319946
 text = "test feature button"
 
 [node name="StoryDialogue" parent="CanvasLayer/UI" instance=ExtResource("6_aw33w")]
+visible = false
 
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("10_ktmlt")]
 
@@ -963,7 +1037,10 @@ text = "test feature button"
 [connection signal="pressed" from="CanvasLayer/UI/Build mode/Turret" to="." method="_on_turret_pressed"]
 [connection signal="pressed" from="CanvasLayer/UI/Build mode/ConveyorBelt" to="." method="_on_conveyor_belt_pressed"]
 [connection signal="pressed" from="CanvasLayer/UI/Build mode/Mine" to="." method="_on_mine_pressed"]
-[connection signal="pressed" from="CanvasLayer/UI/Build mode/Factory" to="." method="_on_factory_pressed"]
+[connection signal="toggled" from="CanvasLayer/UI/Build mode/Factory" to="." method="_on_factory_toggled"]
+[connection signal="pressed" from="CanvasLayer/UI/Build mode/Factory/FactoryType/Furnace" to="." method="_on_furnace_pressed"]
+[connection signal="pressed" from="CanvasLayer/UI/Build mode/Factory/FactoryType/Freezer" to="." method="_on_freezer_pressed"]
+[connection signal="pressed" from="CanvasLayer/UI/Build mode/Factory/FactoryType/Dryer" to="." method="_on_dryer_pressed"]
 [connection signal="pressed" from="CanvasLayer/UI/Build mode/Path" to="." method="_on_path_pressed"]
 [connection signal="pressed" from="CanvasLayer/UI/Build mode/Start Round" to="." method="_on_start_round_pressed"]
 [connection signal="pressed" from="CanvasLayer/UI/Build mode/Sell" to="." method="_on_sell_pressed"]

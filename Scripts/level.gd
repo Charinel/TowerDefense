@@ -1,33 +1,45 @@
 extends Node2D
 
-var enemies_scene: PackedScene = load("res://scene/enemies.tscn")
-var turret_scene: PackedScene = load("res://scene/turret.tscn")
-var farmer_scene: PackedScene = load("res://scene/farmer.tscn")
-var river_scene: PackedScene = load("res://scene/river.tscn")
-var furnace_scene: PackedScene = preload("res://scene/four.tscn")
+var enemies_scene: 	PackedScene = load("res://scene/enemies.tscn")
+var turret_scene: 	PackedScene = load("res://scene/turret.tscn")
+var farmer_scene: 	PackedScene = load("res://scene/farmer.tscn")
+var river_scene: 	PackedScene = load("res://scene/river.tscn")
+var furnace_scene: 	PackedScene = load("res://scene/factories/four.tscn")
+var freezer_scene: 	PackedScene = load("res://scene/factories/freezer.tscn")
+var dryer_scene: 	PackedScene = load("res://scene/factories/dryer.tscn")
 
-var riverGhost_scene: PackedScene = load("res://scene/river_ghost.tscn")
-var farmerGhost_scene: PackedScene = load("res://scene/farmer_ghost.tscn")
-var turretGhost_scene: PackedScene = load("res://scene/turret_ghost.tscn")
-var factoryGhost_scene: PackedScene = load("res://scene/factory_ghost.tscn")
+var riverGhost_scene: 	PackedScene = load("res://scene/ghost/river_ghost.tscn")
+var farmerGhost_scene: 	PackedScene = load("res://scene/ghost/farmer_ghost.tscn")
+var turretGhost_scene: 	PackedScene = load("res://scene/ghost/turret_ghost.tscn")
+var factoryGhost_scene: PackedScene = load("res://scene/ghost/factory_ghost.tscn")
+var furnaceGhost_scene:	PackedScene = load("res://scene/ghost/furnace_ghost.tscn")
+var freezerGhost_scene:	PackedScene = load("res://scene/ghost/freezer_ghost.tscn")
+var dryerGhost_scene:	PackedScene = load("res://scene/ghost/dryer_ghost.tscn")
 
-@onready var tileMapNormalTiles: TileMapLayer = $Map/NormalTiles
-@onready var enemy_tiles: TileMapLayer = $Map/EnemyTiles
-@onready var totalFlesh: Label = $CanvasLayer/UI/TotalFlesh
+@onready var tileMapNormalTiles: 	TileMapLayer = $Map/NormalTiles
+@onready var enemy_tiles: 			TileMapLayer = $Map/EnemyTiles
+@onready var totalFlesh: 			Label = $CanvasLayer/UI/TotalFlesh
+
+@onready var turretButton: 			Button = $"CanvasLayer/UI/Build mode/Turret"
+@onready var conveyorBeltButton: 	Button = $"CanvasLayer/UI/Build mode/ConveyorBelt"
+@onready var mineButton: 			Button = $"CanvasLayer/UI/Build mode/Mine"
+@onready var pathButton: 			Button = $"CanvasLayer/UI/Build mode/Path"
+@onready var start_roundButton: 	Button = $"CanvasLayer/UI/Build mode/Start Round"
+@onready var sellButton: 			Button = $"CanvasLayer/UI/Build mode/Sell"
+@onready var factoryButton: 		Button = $"CanvasLayer/UI/Build mode/Factory"
+@onready var furnaceButton: 		Button = $"CanvasLayer/UI/Build mode/Factory/FactoryType/Furnace"
+@onready var freezerButton: 		Button = $"CanvasLayer/UI/Build mode/Factory/FactoryType/Freezer"
+@onready var dryerButton: 			Button = $"CanvasLayer/UI/Build mode/Factory/FactoryType/Dryer"
+
+
 @onready var UIbuild_mode: Control = $"CanvasLayer/UI/Build mode"
-@onready var turretButton: Button = $"CanvasLayer/UI/Build mode/Turret"
-@onready var conveyorBeltButton: Button = $"CanvasLayer/UI/Build mode/ConveyorBelt"
-@onready var mineButton: Button = $"CanvasLayer/UI/Build mode/Mine"
-@onready var pathButton: Button = $"CanvasLayer/UI/Build mode/Path"
-@onready var start_roundButton: Button = $"CanvasLayer/UI/Build mode/Start Round"
-@onready var sellButton: Button = $"CanvasLayer/UI/Build mode/Sell"
-@onready var factoryButton: Button = $"CanvasLayer/UI/Build mode/Factory"
+@onready var factory_type: Control = $"CanvasLayer/UI/Build mode/Factory/FactoryType"
 
-@onready var building: TileMapLayer = $Map/Building
-@onready var roundSystem: Node2D = $RoundSystem
-@onready var gracePeriodTimer: Timer = $"CanvasLayer/UI/Build mode/Start Round/GracePeriod"
-@onready var storyDialogue: Node2D = $CanvasLayer/UI/StoryDialogue
-@onready var pause_menu: Node = $CanvasLayer/PauseMenu
+@onready var building: 			TileMapLayer = 	$Map/Building
+@onready var roundSystem: 		Node2D = 		$RoundSystem
+@onready var gracePeriodTimer: 	Timer = 		$"CanvasLayer/UI/Build mode/Start Round/GracePeriod"
+@onready var storyDialogue: 	Node2D = 		$CanvasLayer/UI/StoryDialogue
+@onready var pause_menu: 		Node = 			$CanvasLayer/PauseMenu
 
 
 var amountOfPixelInATile = 16
@@ -49,6 +61,8 @@ var noise: Noise
 var normalTileAtlas = Vector2(0,0)
 var enemyTileAtlas = Vector2(4,2) 
 var ironPatchAtlas = Vector2i(10,2)
+
+var factory
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -120,14 +134,16 @@ func _input(event: InputEvent) -> void:
 			elif sellButton.button_pressed :
 				sellBuilding(setCenterOfCell(building.get_local_mouse_position()))
 				
-			elif factoryButton.button_pressed :
-				var factory = furnace_scene.instantiate()
-				factory.position = setCenterOfCell(building.get_local_mouse_position())
-				if checkIfThereIsPlace(factory.position) and checkMoney(factory.get_cost()):
-					$Factories.add_child(factory)
-				else :
-					factory.free()
-				
+			elif furnaceButton.button_pressed :
+				factory = furnace_scene.instantiate()
+				placeFactory()
+			elif freezerButton.button_pressed :
+				factory = freezer_scene.instantiate()
+				placeFactory()
+			elif dryerButton.button_pressed :
+				factory = dryer_scene.instantiate()
+				placeFactory()
+					
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	totalFlesh.text = str(money)
@@ -187,7 +203,7 @@ func checkIfThereIsPlace(pos: Vector2)-> bool:
 		if $Mines.get_child(x).position == pos and $Mines.get_child(x).name != "FarmerGhost":
 			return false
 	for x in $Factories.get_child_count():
-		if $Factories.get_child(x).position == pos and $Factories.get_child(x).name != "FactoryGhost":
+		if $Factories.get_child(x).position == pos and $Factories.get_child(x).get_child_count() != 1:
 			return false
 	if enemy_tiles.get_cell_tile_data(Vector2((pos.x)/amountOfPixelInATile,(pos.y)/amountOfPixelInATile)) != null :
 		return false
@@ -224,6 +240,11 @@ func setButtonOff() -> void:
 	pathButton.button_pressed = false
 	sellButton.button_pressed = false
 	factoryButton.button_pressed = false
+	furnaceButton.button_pressed = false
+	freezerButton.button_pressed = false
+	dryerButton.button_pressed = false
+	
+	factory_type.visible = false
 
 func _on_turret_pressed() -> void:
 	setButtonOff()
@@ -394,6 +415,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	body.queue_free()
 	
 func clearSelection() -> void:
+	#TO DO improve performance by adding a match
 	clearGhost()
 	turretButton.button_pressed = false
 	turretButton.release_focus()
@@ -407,12 +429,46 @@ func clearSelection() -> void:
 	sellButton.release_focus()
 	turretButton.button_pressed = false
 	turretButton.release_focus()
+	factoryButton.button_pressed = false
+	factoryButton.release_focus()
+	furnaceButton.button_pressed = false
+	furnaceButton.release_focus()
+	freezerButton.button_pressed = false
+	freezerButton.release_focus()
+	dryerButton.button_pressed = false
+	dryerButton.release_focus()
 
 func _on_test_feature_pressed() -> void:
 	storyDialogue.dialog1()
 
-func _on_factory_pressed() -> void:
+func _on_furnace_pressed() -> void:
 	setButtonOff()
-	factoryButton.button_pressed = true
-	changeGhost(currentGhost, factoryGhost_scene)
+	furnaceButton.button_pressed = true
+	changeGhost(currentGhost, furnaceGhost_scene)
 	$Factories.add_child(currentGhost)
+
+func _on_factory_toggled(toggled_on: bool) -> void:
+	factoryButton.button_pressed = toggled_on
+	factory_type.visible = toggled_on
+
+
+func _on_freezer_pressed() -> void:
+	setButtonOff()
+	freezerButton.button_pressed = true
+	changeGhost(currentGhost, freezerGhost_scene)
+	$Factories.add_child(currentGhost)
+
+
+func _on_dryer_pressed() -> void:
+	setButtonOff()
+	dryerButton.button_pressed = true
+	changeGhost(currentGhost, dryerGhost_scene)
+	$Factories.add_child(currentGhost)
+	
+func placeFactory() -> void :
+	if !factory_type.visible:
+		factory.position = setCenterOfCell(building.get_local_mouse_position())
+		if checkIfThereIsPlace(factory.position) and checkMoney(factory.get_cost()):
+			$Factories.add_child(factory)
+		else :
+			factory.free()
