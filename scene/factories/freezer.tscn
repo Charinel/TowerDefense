@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://crulj681onuce"]
+[gd_scene load_steps=4 format=3 uid="uid://crulj681onuce"]
 
 [ext_resource type="PackedScene" uid="uid://mu6jrromd5rh" path="res://scene/usine.tscn" id="1_sh5xt"]
+[ext_resource type="Script" uid="uid://c2fcctgnkd34d" path="res://Scripts/freezer.gd" id="2_abv3b"]
 [ext_resource type="Texture2D" uid="uid://djfm3h67yjhyd" path="res://Ressources/freezer.png" id="2_bv3op"]
 
 [node name="Usine" instance=ExtResource("1_sh5xt")]
+script = ExtResource("2_abv3b")
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_bv3op")

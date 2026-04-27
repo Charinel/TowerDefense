@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cl2ms64f7d5wk"]
+
+[ext_resource type="PackedScene" uid="uid://s3ropndi5se4" path="res://scene/item/item.tscn" id="1_pjywu"]
+[ext_resource type="Texture2D" uid="uid://ckykdmnankweo" path="res://Ressources/deepFreezeItem.png" id="2_g2mms"]
+
+[node name="Item" instance=ExtResource("1_pjywu")]
+type = 5
+
+[node name="Sprite" parent="." index="1"]
+texture = ExtResource("2_g2mms")

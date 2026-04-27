@@ -97,9 +97,9 @@ func loadRightTypeOfBullet() -> void:
 			stateOfItem.ASH:
 				bullet = load("res://scene/bullet/ashBullet.tscn")
 			stateOfItem.FREEZE:
-				bullet = load("res://scene/item.tscn") #TO DO
+				bullet = load("res://scene/item/item.tscn") #TO DO
 			stateOfItem.DEEPFREEZE:
-				bullet = load("res://scene/item.tscn") #TO DO
+				bullet = load("res://scene/item/item.tscn") #TO DO
 			stateOfItem.DRIED:
 				#Fire Pierce #TO DO
 				pass

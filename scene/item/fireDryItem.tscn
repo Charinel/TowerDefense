@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://lrdfvw3esu7q"]
+
+[ext_resource type="PackedScene" uid="uid://s3ropndi5se4" path="res://scene/item/item.tscn" id="1_8sw0g"]
+[ext_resource type="Texture2D" uid="uid://drw6jgb2t5v3a" path="res://Ressources/fireDryItem.png" id="2_a2cph"]
+
+[node name="Item" instance=ExtResource("1_8sw0g")]
+type = 8
+
+[node name="Sprite" parent="." index="1"]
+texture = ExtResource("2_a2cph")

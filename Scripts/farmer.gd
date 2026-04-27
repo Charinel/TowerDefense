@@ -1,6 +1,6 @@
 extends "res://Scripts/placable.gd"
 
-@export var item_scene: PackedScene = load("res://scene/item.tscn")
+@export var item_scene: PackedScene = load("res://scene/item/item.tscn")
 @export var spawn_interval = 1  # Temps entre chaque ressource
 @export var spawn_direction = Vector2.DOWN  # Direction de départ de l'item
 
